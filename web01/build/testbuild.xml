@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<project name="web01" default="create" basedir=".">
+	<description></description>
+	<property name="targetServer" value="C:\tomcat7\webapps" />
+	<property name="tomcat.home" value="C:\tomcat7"/>
+	<property name="classDir" value="C:\Workspace\web01\build" />
+	<property name="app.name" value="web01" />
+	<property name="app.path" value="/${app.name}"/>
+	<property name="build.home" value="${basedir}/build" />
+	<property name="dist.home" value="${basedir}/dist" />
+	<property name="src.home" value="${basedir}/src" />
+	<property name="web.home" value="${basedir}" />
+	
+	<path id = "project.classpath">
+		<fileset dir = "${tomcat.home}/lib">
+		<include name ="*.jar"/>
+		</fileset>
+	<fileset dir ="${web.home}/WEB-INF/lib">
+		<include name = "*.jar"></include>
+		</fileset>
+	</path>
+
+	<target name="delete">
+		<delete dir ="${build.home}"></delete>
+		<delete dir ="${dist.home}"></delete>
+	</target>
+	
+	<target name="create" depends ="delete">
+		<mkdir dir="${build.home}"/>
+		<mkdir dir="${dist.home}/WEB-INF"/>
+		<mkdir dir="${dist.home}/WEB-INF/classes"/>
+		<mkdir dir="${dist.home}/WEB-INF/ilb"/>
+		
+		<copy todir = "${build.home}">
+		<fileset dir="${web.home}">
+			<include name="**/*.jsp"/>
+			<include name="**/*.png"/>
+			<include name="**/*.css"/>
+			<include name="**/*.js"/>
+			<include name="**/*.jpg"/>
+			<include name="**/*.gif"/>
+			<include name="**/*.swf"/>
+			<include name="**/*.xml"/>
+			<include name="**/*.tld"/>
+			<include name="**/*.jar"/>
+		</fileset>
+		</copy>
+		
+	</target>
+	
+		
+	
+
+
+</project>
