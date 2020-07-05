@@ -1,0 +1,48 @@
+
+7월 04, 2020 13:40:25.49 NEW SESSION
+7월 04, 2020 13:40:25.49 [207800:247824:0704/134025.489:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 14:09:06.34 [264776:142392:0704/140906.344:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 14:14:43.64 [324684:53640:0704/141443.638:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 14:22:43.93 [229316:259932:0704/142243.929:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 14:23:29.19 [324888:283640:0704/142329.194:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 14:24:41.04 [319412:148460:0704/142441.044:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 14:25:25.32 [263788:249036:0704/142525.327:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 14:33:10.80 [290580:69356:0704/143310.800:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 14:34:44.38 [196508:139800:0704/143444.380:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:06:48.64 [133992:48132:0704/150648.639:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:10:07.48 [155868:334428:0704/151007.482:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:10:29.47 [89576:122976:0704/151029.468:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:17:17.97 [10204:91940:0704/151717.976:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:17:53.87 [12248:240236:0704/151753.874:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:20:14.13 [83904:144652:0704/152014.137:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:20:33.04 [278740:79828:0704/152033.036:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:21:37.79 [282612:227540:0704/152137.790:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:21:57.04 [156040:178408:0704/152157.046:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:25:02.55 [169808:140688:0704/152502.547:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:28:25.74 [102968:236204:0704/152825.746:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:28:51.13 [280936:306420:0704/152851.135:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:29:56.91 [167588:171060:0704/152956.909:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:31:24.88 [53084:278684:0704/153124.887:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:33:14.76 [128504:228064:0704/153314.762:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:33:19.39 [128504:284140:0704/153319.393:ERROR:get_updates_processor.cc(258)] PostClientToServerMessage() failed during GetUpdates with error 2
+7월 04, 2020 15:41:54.52 [336492:65232:0704/154154.513:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 15:51:31.25 [173832:92040:0704/155131.249:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 16:01:40.51 [125868:220912:0704/160140.515:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 16:02:20.81 [13700:329124:0704/160220.809:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 16:37:08.20 [32520:43704:0704/163708.204:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 17:24:08.16 [341412:293380:0704/172408.158:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 18:16:33.07 [181100:112028:0704/181633.068:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+
+7월 04, 2020 18:25:22.80 NEW SESSION
+7월 04, 2020 18:25:22.80 [305844:304768:0704/182522.802:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 19:38:46.50 [98500:24872:0704/193846.495:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 19:51:14.95 [260000:49656:0704/195114.952:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 20:09:57.28 [205076:265536:0704/200957.285:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 04, 2020 20:10:00.61 [205076:252056:0704/201000.618:ERROR:get_updates_processor.cc(258)] PostClientToServerMessage() failed during GetUpdates with error 2
+7월 04, 2020 20:10:04.73 [146700:327580:0704/201004.728:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+
+7월 05, 2020 09:40:28.134 NEW SESSION
+7월 05, 2020 09:40:28.134 [133528:14888:0705/094028.134:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 05, 2020 10:04:56.758 [250756:147596:0705/100456.758:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 05, 2020 10:05:11.395 [66368:308652:0705/100511.395:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)
+7월 05, 2020 10:07:36.400 [137036:69984:0705/100736.400:ERROR:data_pack.cc(120)] Could not open pak file for writing: 요청한 작업은, 사용자가 매핑한 구역이 열려 있는 상태인 파일에서 수행할 수 없습니다. (0x4C8)

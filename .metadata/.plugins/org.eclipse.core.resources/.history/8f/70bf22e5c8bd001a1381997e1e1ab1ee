@@ -1,0 +1,64 @@
+<%@page import="java.sql.DriverManager"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+	<%@ include file="../template/header.jspf"%>
+	<%@ include file="../template/menu.jspf"%>
+	
+	
+	<table align = "center" width = "700">
+	<%
+		try{
+			int num = Integer.parseInt(request.getParameter("num"));
+			String sql ="select * from board where num ="+num;
+	conn = DriverManager.getConnection(url, info);
+	stmt = conn.createStatement();
+	rs = stmt.executeQuery(sql);
+	
+		while(rs.next()){
+	%>
+	<tr>
+	<th style="font-size:120%;"><%=rs.getString("title") %></th> <!-- 제목 -->
+	</tr>
+	<tr>
+	<td><%=rs.getString("writer") %></td>	<!-- 작성자 -->
+	<td><%=rs.getDate("wtime") %></td>	<!-- 날짜 -->
+	</tr>
+	<tr>
+	<td><%=rs.getString("content") %></td>	<!-- 내용 -->
+	</tr>
+	
+	
+	<%
+	}
+	}catch(Exception e){
+		e.printStackTrace();
+	}finally{
+		if(stmt!=null) stmt.close();
+		if(conn!=null) conn.close();
+	}
+	
+	%>
+	
+	
+	
+	
+	
+	</table>
+	
+	
+	
+	
+	
+	
+	
+	
+	<%@ include file="../template/footer.jspf"%>
+</body>
+</html>

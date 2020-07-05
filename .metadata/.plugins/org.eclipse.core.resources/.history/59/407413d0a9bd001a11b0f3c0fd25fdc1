@@ -1,0 +1,17 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+
+    <tr align="center">
+			<!-- menu -->
+			<td bgcolor = "#6262d7">&nbsp;</td>
+			<td bgcolor = "#6262d7" width="250" style="color:white;"><a href="index.jsp">HOME</a></td>
+			<td bgcolor = "#6262d7" width="250" style="color:white;"><a href="notice/list.jsp">NOTICE</a></td>
+			<td bgcolor = "#6262d7" width="250" style="color:white;"><a href="board/list.jsp">FREE BOARD</a></td>
+			<td bgcolor = "#6262d7">&nbsp;</td>
+
+		</tr>
+
+
+		<tr>
+			<td colspan="5">
+			<!-- contents start -->

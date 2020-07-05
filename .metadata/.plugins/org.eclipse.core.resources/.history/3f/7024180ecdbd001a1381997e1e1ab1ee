@@ -1,0 +1,50 @@
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+    pageEncoding="EUC-KR"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+</head>
+<body>
+<%@ include file="../template/header.jspf"%>
+<%@ include file="../template/menu.jspf"%>
+	
+	<form action = "insert.jsp">
+	<table border ="1"  width = "600" align = "center">
+	
+	<tr>
+	<td colspan="2"><h1>글쓰기</h1></td>
+	</tr>
+	
+	<tr align = "center">
+	<td width = "150">제목</td>
+	<td><textarea rows="1" cols="80"></textarea></td>
+	</tr>
+	
+	<tr align = "center">
+	<td>글쓴이</td>
+	<td><textarea rows="1" cols="80"></textarea></td>
+	</tr>
+	
+	<tr>
+	<td></td>
+	<td>
+	<textarea rows="20" cols="80"></textarea>
+	</td>
+	</tr>
+	
+	
+	
+	
+	
+	
+	
+	</table>
+	</form>
+	
+	
+	
+<%@ include file="../template/footer.jspf"%>
+</body>
+</html>

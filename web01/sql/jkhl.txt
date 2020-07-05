@@ -1,0 +1,2 @@
+
+select num, rwn from (select num, rownum as rwn from (select num, title, writer, wtime, ref, no, lev, rownum as rn from board  order by rn desc)) where rwn between 21 and 40;
