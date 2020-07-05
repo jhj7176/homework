@@ -36,6 +36,7 @@ a{
 			while (rs.next()) {
 				
 				String creationTime = rs.getString("wtime").substring(0, rs.getString("wtime").indexOf("."));
+				//게시글 작성 날짜. 년월일 시간분초
 		%>
 		<tr>
 			<th align="center" style="font-size: 150%;"><%=rs.getString("title")%></th>
@@ -46,7 +47,7 @@ a{
 			<!-- 날짜 -->
 		</tr>
 		<tr height="400">
-			<td><%=rs.getString("content")%></td>
+			<td><%=rs.getString("content").replace("\r\n", "<br>")%></td><!-- 개행처리 -->
 			<!-- 내용 -->
 		</tr>
 

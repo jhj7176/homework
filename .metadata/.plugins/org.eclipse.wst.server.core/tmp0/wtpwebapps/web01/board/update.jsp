@@ -14,9 +14,9 @@
 	System.out.println("check");
 	int num = Integer.parseInt(request.getParameter("num"));
 	System.out.println("check="+num);
-	String title = new String(request.getParameter("title").getBytes("ISO-8859-1"), "EUC-KR");
-	String writer = new String(request.getParameter("writer").getBytes("ISO-8859-1"), "EUC-KR");
-	String content = new String(request.getParameter("content").getBytes("ISO-8859-1"), "EUC-KR");
+	String title = request.getParameter("title");
+	String writer = request.getParameter("writer");
+	String content = request.getParameter("content");
 	System.out.println("check222"+title+writer+content);
 
 	try {

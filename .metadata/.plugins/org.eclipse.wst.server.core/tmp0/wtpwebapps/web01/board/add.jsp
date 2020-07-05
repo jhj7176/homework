@@ -31,7 +31,7 @@
 	<tr>
 	<td bgcolor="#d2e1ff" ></td>
 	<td>
-	<textarea name="content" rows="20" cols="80"></textarea>
+	<textarea name="content" rows="20" cols="80" wrap = "hard"></textarea>
 	</td>
 	</tr>
 	

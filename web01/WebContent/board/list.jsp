@@ -39,8 +39,6 @@ a {
 
 	<%@ include file="../template/header.jspf"%>
 	<%@ include file="../template/menu.jspf"%>
-
-
 	<br>
 
 
@@ -75,14 +73,14 @@ a {
 		SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm"); //오늘 게시글 시간
 		SimpleDateFormat sdf2 = new SimpleDateFormat("yy-MM-dd");//오늘 아닌 게시글 날짜
 		Date date = new Date();
-		String today = sdf2.format(date);
-		String wtime = "";
+		String today = sdf2.format(date); //오늘 날짜 yy-MM-dd, 게시글 날짜와 비교용. 
+		String wtime = ""; //게시글 날짜
 		try {
 			conn = DriverManager.getConnection(url, info);
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql2);
 			if (rs.next())
-				cardinality = rs.getInt(1);
+				cardinality = rs.getInt(1); //총 게시글 수, 튜플 수 
 			System.out.println(cardinality);
 			stmt.close();
 
@@ -95,28 +93,33 @@ a {
 				for (int i = 0; i < lev; i++) {
 			replyTitleSpace += "&nbsp;&nbsp;&nbsp;";
 				}
-				String re = replyTitleSpace + "[re]";
+				String re = replyTitleSpace + "[re]"; //여백+[답글마크]
 				if (lev == 0)
 			re = "";
 		%>
 
-		<tr>
-			<!-- 글번호 제목 글쓴이 날짜 -->
+		<tr><!-- 글번호 제목 글쓴이 날짜 -->
+			
 			<td align="center"><%=rs.getString(1)%></td>
+			<!-- 글번호 -->
 			<td><a style="color: black;"
 				href="detail.jsp?num=<%=rs.getInt(1)%>&writer=<%=rs.getString(3)%>
 				&ref=<%=rs.getString("ref")%>&no=<%=rs.getString("no")%>&lev=<%=rs.getString("lev")%>">
 					<%=re%> <%=rs.getString(2)%></a></td>
+			<!-- 제목 , 파라미터로 글번호,작성자,참조글번호, 글 순서 번호, 들여쓰기레벨 전달-->
 			<td align="center"><%=rs.getString(3)%></td>
+			<!-- 글쓴이 -->
 
 			<%
 				if (sdf2.format(rs.getDate(4)).equals(today)) {
 			%>
 			<td align="center"><%=sdf1.format(rs.getTimestamp(4))%></td>
+			<!-- 오늘날짜면 시간으로 표시 -->
 			<%
 				} else {
 			%>
 			<td align="center"><%=sdf2.format(rs.getDate(4))%></td>
+			<!-- 오늘 이전이면 yy-MM-dd형식 -->
 		</tr>
 		<%
 			}
@@ -144,12 +147,12 @@ a {
 
 				int lang = 10; //한 페이지당 페이지 링크번호 수. 10개 
 				int left = 0;
-				if (cardinality % 20 != 0)
+				if (cardinality % 20 != 0) //게시글 나누기 20의 나머지가 있는 경우 1페이지 추가
 					left = 1;
 				int totalPage = (cardinality - cardinality % 20) / 20 + left;
 				System.out.println(totalPage);
-				int start = 1 + ((pageNum - 1) / lang) * lang;
-				int end = start + lang;
+				int start = 1 + ((pageNum - 1) / lang) * lang; //페이지 번호링크 시작
+				int end = start + lang; //페이지 번호링크 끝
 				if (end > totalPage)
 					end = totalPage + 1;
 				//pageNum
@@ -160,7 +163,7 @@ a {
 				21-30		21
 
 				*/
-				if (start > lang) {
+				if (start > lang) {//페이지 링크번호 누른게 10번 페이지보다 크면 prev링크 생성
 				%> <a href="list.jsp?pageNum=<%=start - lang%>">[prev]</a> <%
  	}
 
@@ -168,7 +171,7 @@ a {
  %> <a href="list.jsp?pageNum=<%=i%>">[<%=i%>]
 			</a> <%
  	} //for
- if (end < totalPage) {
+ if (end < totalPage) { //마지막 페이지번호링크가 전체페이지수보다 작을때만 next생성
  %> <a href="list.jsp?pageNum=<%=end%>">[next]</a> <%
  	} //if
  %>
@@ -180,13 +183,15 @@ a {
 	<br>
 	<form action="list.jsp">
 		<table align="center">
-			<!-- 글 검색 -->
+			<!-- 게시글 검색 -->
 			<tr>
 				<td><select name="key">
+						<!-- 컬럼명 -->
 						<option value="title">제목</option>
 						<option value="writer">글쓴이</option>
 				</select> <input type="text" name="search"><input type="submit"
 					value="검색"></td>
+				<!-- 검색어 입력 -->
 			</tr>
 		</table>
 	</form>
