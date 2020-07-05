@@ -19,7 +19,7 @@
 <%@ include file="../template/menu.jspf"%>
 	<br><br>
 	
-	<form action = "update.jsp?">
+	<form action = "update.jsp">
 	<table border ="0"  width = "700" align = "center">
 	<tr>
 	<td colspan="2"><h1>±Û¾²±â</h1></td>

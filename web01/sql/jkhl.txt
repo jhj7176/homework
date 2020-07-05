@@ -1,2 +1,28 @@
 
-select num, rwn from (select num, rownum as rwn from (select num, title, writer, wtime, ref, no, lev, rownum as rn from board  order by rn desc)) where rwn between 21 and 40;
+select num, rwn from (select num, rownum as rwn from
+
+ (select num, title, writer, wtime, ref, no, lev, rownum as rn from board  order by rn desc)) where rwn between 21 and 40;
+
+ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+
+
+select num, title from (select num,title, writer, wtime, ref, no, lev, etime, rownum as rwn from (select * from notice)) where rwn between  1  and 5 order by ref desc, wtime
+
+
+
+update notice set no = no+1 where ref = ref and no > nvl((select max(no) from notice where ref = "ref " and lev = (lev + 1)), no)
+
+update notice set no = no+1 where ref = ref and no > reNo
+
+
+답글의 답글 달 경우. reinsert.jsp  변경, 삽입
+update notice set no = no+1 where ref = 8 and no > nvl((select max(no) from notice where ref = 8 and lev =3), 2)
+
+insert into notice (num, title, writer, wtime, content, ref, no, lev) values 
+(notice_seq.nextval, '1-1-7', 'asdf', sysdate, '', 8,(nvl((select max(no) from notice where ref = 8 and lev =3), 2)+1 ), 3)
+
+
+
+
+
+

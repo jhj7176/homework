@@ -69,6 +69,7 @@ a {
 		String sql = "select * from (select num,title, writer, wtime, ref, no, lev, rownum as rwn from ";
 		sql += "(select * from board where " + key + " like '%" + word + "%' order by ref desc)) ";
 		sql += "where rwn between " + startNum + " and " + endNum + "order by ref desc, no";
+
 		String sql2 = "select count(*) from board where " + key + " like '%" + word + "%'"; //총 게시글 수
 		SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm"); //오늘 게시글 시간
 		SimpleDateFormat sdf2 = new SimpleDateFormat("yy-MM-dd");//오늘 아닌 게시글 날짜
@@ -98,8 +99,9 @@ a {
 			re = "";
 		%>
 
-		<tr><!-- 글번호 제목 글쓴이 날짜 -->
-			
+		<tr>
+			<!-- 글번호 제목 글쓴이 날짜 -->
+
 			<td align="center"><%=rs.getString(1)%></td>
 			<!-- 글번호 -->
 			<td><a style="color: black;"
