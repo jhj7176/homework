@@ -1,4 +1,4 @@
-
+<%@page import="com.bit.dept.DeptSQL"%>
 <%@page import="com.bit.dept.DeptDto"%>
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
@@ -19,6 +19,8 @@
 
 	request.setCharacterEncoding("EUC-KR");
 	DeptDto log = (DeptDto) session.getAttribute("login");
+	DeptSQL dept = new DeptSQL();
+	dept.detail(log);
 %>
 
 
@@ -33,7 +35,7 @@
 		<!-- login  -->
 		<td colspan="5" style="text-align: right;"><a
 			style="color: black; font-size: 60%;" href="<%=request.getParameter("path") %>login/form.jsp">로그인</a>
-			<a style="color: black; font-size: 60%;" href="../login/join.jsp">회원가입</a></td>
+			<a style="color: black; font-size: 60%;" href="#">회원가입</a></td>
 	</tr>
 	<%
 		} else {
@@ -41,7 +43,7 @@
 	<tr>
 		<!-- login  -->
 		<td colspan="5" style="text-align: right;"><a
-			style="color: black; font-size: 60%;" href="#"><jsp:getProperty
+			style="color: black; font-size: 60%;" href="<%=request.getParameter("path") %>dept/detail.jsp?num=<%=log.getNum()%>"><jsp:getProperty
 					property="name" name="login" />님 환영합니다.</a> <a
 			style="color: black; font-size: 60%;" href="<%=request.getParameter("path") %>login/logout.jsp">로그아웃</a></td>
 	</tr>

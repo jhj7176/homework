@@ -110,7 +110,7 @@ public class DeptSQL {
 
 	public void login(DeptDto bean) throws SQLException {
 
-		String sql = "select dname, lev from dept01 where id= '"
+		String sql = "select dname, lev, num from dept01 where id= '"
 				+ bean.getId() + "' and";
 		sql += " pw='" + bean.getPw() + "'";
 
@@ -124,6 +124,7 @@ public class DeptSQL {
 				bean.setName(rs.getString("dname"));
 				bean.setLev(rs.getString("lev"));
 				bean.setResult(true);
+				bean.setNum(rs.getInt("num"));
 			}// if
 
 		} finally {
