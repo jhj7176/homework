@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<project name="web08" default="Deploy" basedir=".">
+
+	<description>testbuild.xml</description>
+
+
+	<property name="tomcat.wapps" value="C:\tomcat\webapps" />
+	<property name="tomcat.home" value="C:\tomcat" />
+	<property name="classDir" value="C:\Workspace\web08\build" />
+	<property name="app.name" value="web08" />
+	<property name="app.path" value="/${app.name}" />
+	<property name="build.home" value="${basedir}/build" />
+	<property name="dist.home" value="${basedir}/dist" />
+	<property name="src.home" value="${basedir}/src" />
+	<property name="docs.home" value="${docsdir}/docs" />
+	<property name="web.home" value="${basedir}/WebContent" />
+
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir"     value="${build.dir}/jar"/>
+	
+
+	<path id="project.classpath">
+		<fileset dir="${tomcat.home}/lib">
+			<include name="*.jar" />
+		</fileset>
+		<fileset dir="${web.home}/WEB-INF/lib">
+			<include name="*.jar">
+			</include>
+		</fileset>
+		<fileset dir="${ant.home}/lib" />
+	</path>
+
+	<target name="delete">
+		<delete dir="${build.home}">
+		</delete>
+		<delete dir="${dist.home}">
+		</delete>
+	</target>
+
+	 <target name="compile">
+	        <mkdir dir="${classes.dir}"/>
+	        <javac srcdir="${src.home}" destdir="${classes.dir}" classpathref="project.classpath"/>
+	        <copy todir="${classes.dir}">
+	            <fileset dir="${src.home}" excludes="**/*.java"/>
+	        </copy>
+	    </target>
+	
+	 <target name="jar" depends="compile">
+	        <mkdir dir="${jar.dir}"/>
+	        <jar destfile="${jar.dir}/${ant.project.name}.jar" basedir="${classes.dir}">
+	            <manifest>
+	                <attribute name="Main-Class" value="${main-class}"/>
+	            </manifest>
+	        </jar>
+	    </target>
+	
+	<target name="create" depends="delete">
+		<mkdir dir="${build.home}" />
+		<mkdir dir="${build.home}/WEB-INF" />
+		<mkdir dir="${build.home}/WEB-INF/classes" />
+
+		<copy todir="${build.home}" overwrite="true">
+			<fileset dir="${web.home}">
+				<include name="**/*.jsp" />
+				<include name="**/*.png" />
+				<include name="**/*.css" />
+				<include name="**/*.js" />
+				<include name="**/*.jpg" />
+				<include name="**/*.tld" />
+				<include name="**/*.jar" />
+				<include name="**/*.jspf" />
+			</fileset>
+		</copy>
+
+	</target>
+
+
+	
+	
+	
+	
+	
+	<target name="War" depends="create">
+		<war destfile="${ant.project.name}.war" webxml="${web.home}/web.xml">
+
+			<lib dir="${web.home}/WEB-INF/lib" />
+			<classes dir="${build.home}/WEB-INF/classes" />
+			<fileset dir="${build.home}" />
+		</war>
+	</target>
+
+
+	<target name="Deploy" depends="War">
+		<copy file = "C:/WebWorkspace/web08/web08.war" todir = "${tomcat.wapps}"> </copy>
+	</target>
+
+
+<taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask">
+     <classpath>
+       <path location="${build-jars}/catalina-ant.jar" />
+     </classpath>
+</taskdef>
+
+<target name="buildAndDeploy" depends="War">
+     <deploy url="${tomcat.manager.url}"
+             username="${tomcat.manager.username}"
+             password="${tomcat.manager.password}"
+             path="/${target.name}"
+             update="true"
+             war="file:${basedir}/web08.war" />
+</target>
+</project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
