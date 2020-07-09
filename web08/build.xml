@@ -25,7 +25,6 @@
 			<include name="*.jar">
 			</include>
 		</fileset>
-		<fileset dir="${ant.home}/lib" />
 	</path>
 
 	<target name="delete">
