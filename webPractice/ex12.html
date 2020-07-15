@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Title </title>
+
+    <link rel="stylesheet" type="text/css" href="myGrid.css">
+    <style rel="stylesheet" type="text/css">
+        a {
+            text-decoration: none;
+            color: darkblue;
+        }
+
+        a:hover {
+            color: firebrick;
+        }
+
+        div {
+            background-color: white;
+        }
+
+        #header {
+            margin: -8px auto;
+            overflow: hidden;
+            position: fixed;
+        }
+
+        #header>div {
+            width: 1050px;
+            height: 35px;
+            overflow: hidden;
+            /*            background-color:aquamarine;*/
+            /*            border: 1px solid;*/
+
+
+        }
+
+        /*
+        #header>div+div{
+               overflow: hidden;
+            background-color:aquamarine;
+
+        }
+*/
+        #header>div>img {
+            margin: 8px auto;
+            width: 150px;
+
+            float: left;
+
+            overflow: hidden;
+
+        }
+
+        #header>div>h2 {
+            margin: 0px 0px 10px 0px;
+            width: 200px;
+            /*            float: left;*/
+            /*            position: fixed;*/
+
+            overflow: hidden;
+        }
+
+        #nav {
+            margin: 0px 0px 10px -10px;
+            overflow: hidden;
+            padding-top: 37px;
+
+        }
+
+        #nav>div {
+            margin: -10px auto;
+            width: 1200px;
+            overflow: hidden;
+            position: fixed;
+        }
+
+        #nav>div>ul {
+            background-color: beige;
+            height: 32px;
+            width: 985px;
+            overflow: hidden;
+            margin: auto 10px;
+            transition-duration: 2s;
+        }
+
+        #nav>div>ul:hover {
+            transition-duration: 2s;
+            /*            border: 1px solid;*/
+            height: 200px;
+        }
+
+        #nav>div>ul>li {
+            width: 120px;
+            text-align: center;
+            margin: 10px 10px 10px 75px;
+            list-style: none;
+            float: left;
+            padding: 0;
+        }
+
+        #nav>div>ul>li>a {
+            text-decoration: none;
+            display: block;
+            color: black;
+        }
+
+        #nav>div>ul>li>a:hover {
+            border: 1px solid;
+            padding: 1px 1px;
+            color: brown;
+
+        }
+
+        #nav>div>ul>li>ul {
+            border-top: 1px solid;
+        }
+
+        #nav>div>ul>li>ul>li {
+            margin: 15px 0px 0px 0px;
+        }
+
+        #nav>div>ul>li>ul>li>a {
+
+            text-decoration: none;
+            color: black;
+        }
+
+        #nav>div>ul>li>ul>li>a:hover {
+            color: brown;
+        }
+
+        #content {}
+
+        #content>div {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+
+        #content>div>div {
+            /*            border: 1px solid;*/
+            width: 500px;
+            padding: 4px;
+            float: left;
+
+        }
+
+        #content>div>div:nth-child(3) {
+            /*            border: 1px solid;*/
+            float: left;
+            border-top: 1px dotted;
+            border-bottom: 1px dotted;
+
+        }
+
+        #content>div>div:nth-child(4) {
+            /*            border: 1px solid;*/
+            float: left;
+            /*            text-align: left;*/
+            height: 380px;
+
+        }
+
+        #content>div>div:nth-child(4) {
+            /*            border: 1px solid;*/
+            float: left;
+            text-align: left;
+            height: 380px;
+            border-bottom: 1px dotted;
+        }
+
+        #content>div>div:nth-child(5) {
+            /*            border: 1px solid;*/
+            float: left;
+        }
+
+        #content>div>div:nth-child(5)>ul {
+            /*            border: 1px solid;*/
+            overflow: hidden;
+        }
+
+        #content>div>div:nth-child(5)>ul>li {
+            list-style: none;
+            display: block;
+            border: 1px solid;
+            margin: auto 170px;
+            padding: 0px 10px 0px 10px;
+            float: left;
+        }
+
+        #content>div>div+div>img {
+            width: 400px;
+            margin: auto;
+            padding: 0px;
+
+        }
+
+
+
+
+
+        .article>form {
+            /*            border: 1px solid;*/
+            margin: 0px 0px 0px 10px;
+
+            width: 330px;
+            float: left;
+            /*            overflow: hidden;*/
+        }
+
+        .article+.article>p {
+            /*검색창 옆 p tag*/
+            width: 680px;
+            margin: auto;
+            border: 1px solid;
+            overflow: hidden;
+            /*            float: left;*/
+        }
+
+        .container>div+div+div+div+div>div>div>p {
+
+            /*검색창 옆 p tag*/
+            width: 1020px;
+            margin: auto;
+            border: 1px solid;
+            overflow: hidden;
+            /*            float: left;*/
+        }
+
+        #footer>div {
+            margin: 10px 0px 10px 0px;
+            text-align: center;
+            background-color: beige;
+            overflow-x: auto;
+        }
+
+
+
+        /*     #img {
+                        border: 1px solid;
+            width: 335px;
+            overflow: hidden;
+        }
+
+        #img>ul {
+            overflow: hidden;
+            width: 1500px;
+            animation-name: ani1;
+            animation-duration: 6s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate-reverse;
+            animation-play-state: paused;
+
+        }
+
+        #img>ul>li {
+            list-style: none;
+            float: left;
+        }
+
+        #img>ul>li>img {
+            float: none;
+            width: 200px;
+            height: 200px;
+        }
+
+        @keyframes ani1 {
+            from {
+                margin-left: 30px;
+            }
+
+            to {
+                margin-left: -930px;
+            }
+        }*/
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row" id="header">
+            <div class="mgrid_4 grid_12"><img src="img/sandbox.png">
+                <h2>&nbsp;Hahaha Channel</h2>
+            </div>
+        </div>
+
+        <div class="row" id="nav">
+            <div class="mgrid_6 grid_12">
+                <ul>
+                    <li><a href="ex10.html">Home</a>
+
+                        <ul>
+                            <li><a href="ex11.html">Intro</a></li>
+                            <li><a href="#">History</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="#">Video</a>
+
+                        <ul>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="#">Board</a>
+
+                        <ul>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="https://www.youtube.com/c/hahahaYouTube/featured">Youtube</a>
+
+                        <ul>
+                            <li><a href="ex12.html">Book</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row" id="content">
+
+            <div class="mgrid_6 grid_12">
+                <div>
+                    <img src="img/12.png" alt="" />
+
+                </div>
+                <div>
+                    &nbsp;
+                    <h2>인간을 키우는 고양이</h2>
+                    <p>하하하 저/길막이와 삼색이 감수 | 다독임북스 | 2020년 01월 08일</p>
+                    <p><b>★★★★★9.7</b> 회원리뷰(<a href="#"> 31</a>건) | 판매지수 29235 </p>
+                </div>
+                <div>
+                    <p>정가&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15,000원</p>
+                    <p>판매가&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>13,500원</b> (10% 할인)</p>
+
+
+                </div>
+
+
+                <div>
+                    &nbsp;
+                    <p><br /><br /><br />&nbsp;2017년생 추정, 3세로 추정<br /></p>
+
+                    <p>&nbsp; haha ha 양어장에 굴러들어 온 돌. 노란색+흰색+검은색 털이 섞인 삼색 무늬 암컷 고양이. haha ha 채널의 미모 담당이자 애교 담당. 눈가의 검정 아이라인과 코 옆의 점이 매력 포인트로,[19] 비슷한 고등어 태비 고양이들 사이에서 누가 봐도 한눈에 시선을 사로잡는 미묘다. 과할 정도로 뽀송한 털을 보유하고 있다. 양어장의 고양이들 중에서 독보적으로 높고 가녀린 울음소리를 낸다.</p>
+
+                </div>
+                <div>
+                    <ul>
+                        <li>
+                            <p><a href="http://www.yes24.com/Product/Goods/85433555"><b>책 사러가기</b></a></p>
+                        </li>
+                    </ul>
+                </div>
+
+
+            </div>
+
+
+
+
+        </div>
+        <div class="row" id="footer">
+            <div class="mgrid_6 grid_12">W3Schools is optimized for learning, testing, and training. Examples might be simplified to improve reading and basic understanding. Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content. While using this site, you agree to have read and accepted our terms of use, cookie and privacy policy. Copyright &copy; 1999-2020 by Refsnes Data. All Rights Reserved.
+                Powered by W3.CSS.</div>
+        </div>
+    </div>
+
+
+
+
+</body></html>

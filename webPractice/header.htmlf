@@ -1,0 +1,43 @@
+       <div class="row" id="nav">
+            <div class="mgrid_6 grid_12">
+                <ul>
+                    <li><a href="#">Home</a>
+
+                        <ul>
+                            <li><a href="ex11.html">Intro</a></li>
+                            <li><a href="#">History</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="#">Video</a>
+
+                        <ul>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="#">Board</a>
+
+                        <ul>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="https://www.youtube.com/c/hahahaYouTube/featured">Youtube</a>
+
+                        <ul>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+
+                </ul>
+            </div>
+        </div>

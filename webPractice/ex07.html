@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Title </title>
+
+    <link rel="stylesheet" type="text/css" href="myGrid.css">
+    <style rel="stylesheet" type="text/css">
+        div {
+            background-color: white;
+        }
+
+        #header {
+            margin: auto;
+        }
+
+        #header>div>img {
+            margin: 8px auto;
+            width: 150px;
+            float: left;
+        }
+
+        #header>div>h2 {
+            margin: 0px 0px 10px 0px;
+            width: 200px;
+            float: left;
+        }
+
+        #nav {
+            margin: 0px 0px 10px -10px;
+            overflow: hidden;
+        }
+
+        #nav>div {
+            margin: auto;
+
+        }
+
+
+        #nav>div>ul {
+            background-color: beige;
+            height: 32px;
+            width: 960px;
+            overflow: hidden;
+            margin: auto;
+            transition-duration: 2s;
+        }
+
+        #nav>div>ul:hover {
+            transition-duration: 2s;
+            /*            border: 1px solid;*/
+            height: 200px;
+        }
+
+        #nav>div>ul>li {
+            width: 120px;
+
+
+            text-align: center;
+            margin: 10px 10px 10px 75px;
+            list-style: none;
+            float: left;
+            padding: 0;
+        }
+
+        #nav>div>ul>li>a {
+            text-decoration: none;
+            display: block;
+            color: black;
+        }
+
+        #nav>div>ul>li>a:hover {
+            border: 1px solid;
+            padding: 1px 1px;
+            color: brown;
+
+        }
+
+        #nav>div>ul>li>ul {
+            border-top: 1px solid;
+        }
+
+        #nav>div>ul>li>ul>li {
+            margin: 15px 0px 0px 0px;
+        }
+
+        #nav>div>ul>li>ul>li>a {
+
+            text-decoration: none;
+            color: black;
+        }
+
+        #nav>div>ul>li>ul>li>a:hover {
+            color: brown;
+        }
+
+        #content>div:nth-child(1) {
+            height: 700px;
+
+        }
+
+        #content>div:nth-child(1)>img {
+            width: 335px;
+        }
+
+        #content>div:nth-child(1)>p {
+
+            height: 200px;
+            overflow: auto;
+        }
+
+        #content>div+div {
+            width: 680px;
+            height: 700px;
+            border: 1px solid;
+        }
+
+        #content>div+div>h2 {
+            /*            text-align: center;*/
+            margin: 10px 10px 10px 10px;
+            border: 0.5px solid;
+        }
+
+        #content>div+div>div {
+            margin: 10px 10px 10px 10px;
+            border: 0.5px solid;
+        }
+
+        #content>div+div>div+div {
+            /*video div*/
+
+            height: 270px;
+            width: 650px;
+
+        }
+
+        #article>div {
+            background-color: white;
+        }
+
+        #content>div+div>div+div>div:nth-child(1) {
+            margin: 40px 0px 0px 0;
+            float: left;
+        }
+
+        .video>video {
+            width: 300px;
+            height: 160px;
+        }
+
+        #content>div+div>div+div>div:nth-child(2) {
+
+            width: 350px;
+            height: 240px;
+            overflow: auto;
+
+        }
+
+        .article>form {
+/*            border: 1px solid;*/
+            margin: 0px 0px 0px 10px;
+
+            width: 330px;
+            float: left;
+/*            overflow: hidden;*/
+        }
+
+        .article>p {
+            width: 680px;
+            margin: auto;
+            border: 1px solid;
+
+                overflow: hidden;
+/*            float: left;*/
+        }
+
+        #footer>div {
+            margin: 10px 0px 10px 0px;
+            text-align: center;
+            background-color: beige;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row" id="header">
+            <div class="mgrid_4 grid_2"><img src="img/sandbox.png"></div>
+            <div class="mgrid_8 grid_9">
+                <h2>Hahaha Channel</h2>
+            </div>
+        </div>
+
+        <div class="row" id="nav">
+            <div class="mgrid_6 grid_12">
+                <ul>
+                    <li><a href="#">Home</a>
+
+                        <ul>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="#">Video</a>
+
+                        <ul>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="#">Board</a>
+
+                        <ul>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="https://www.youtube.com/c/hahahaYouTube/featured">Youtube</a>
+
+                        <ul>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row" id="content">
+            <div class="mgrid_6 grid_4">
+                <img src="img/12.png">
+
+
+                <p>양어장 주변에서 살아가는 길고양이들이 자꾸 잉어에게 줄 사료봉투를 찢어 놓는 바람에 대신한 먹을 것과 물고기를 잡아다 주는 것에서 시작한 유튜브 채널이다. 야외에서 키우는 개 천하와 태평, 이들의 자식인 주황, 보라도 등장한다. 보통 집 안이나 도심에서 촬영하는 유튜버들과 달리 시골이 주 무대다. 고양이/개/야생 동물/양식업/낚시/요리/먹방/힐링/DIY/ASMR까지 다양한 분야를 두루 섭렵한 독보적인 채널이라 할 수 있다.</p>
+
+
+            </div>
+            <div class="mgrid_6 grid_7">
+                <h2>&#9679; haha ha</h2>
+
+                <div>
+                    <div>
+                        <p>&nbsp;야생의 여러 고양이들과 본인이 교감하고 상생하는 모습을 담담하고 꾸밈없이 보여주는 영상이 대부분이다. 여타 동물 유튜버는 대부분 동물을 집 안에서 기르고 사람이 행동을 유도하는 경향이 어느 정도 있지만, haha ha는 그런 것 없이 자연스러운 고양이의 모습을 있는 그대로 보여준다. 이 점이 다른 반려동물 유튜버와는 차별화된 점이라 할 수 있다. 즉, 다른 반려동물 유튜버들은 동물과 동거[6]하지만, 이 채널은 같은 자연 속에서 인간과 고양이들이 공존하는 모습을 보인다. 함께 오랜 시간을 보낸 후로 고양이들이 실제 야생 고양이와는 다르게 사람사실상 대장 고양이인 하저씨의 손을 많이 타는 모습도 보여준다. 현재로서는 야외에서 활동하는 집 고양이라고 봐도 어색하지 않을 정도.[7] 한 마디로 몇 대를 거치면서 야생 고양이에서 집 고양이로 저절로 변모해 가는 과정을 볼 수 있는 유튜브 채널이다. 다들 좋은 환경에서 밥 잘 먹고 잘 놀다 보니, 털에는 윤기가 흐르고 몸은 포동포동해서 건강하고 귀여워 보인다. 계절에 따라 변화하는 한적한 시골 풍경, 각기 개성이 다른 동물들이 한데 어우러진 모습이 자연·동물 다큐멘터리 못지않은 편안함과 힐링을 선사해 준다.<br />&nbsp;
+
+                            만들기나 낚시·먹방 영상은 보통 10분 내외로 편집하여 올리지만, 5분 미만의 짧은 영상도 많이 올리는 편이다. 영상 업로드 요일이나 시간은 정해져 있지 않으며, 대개 일주일에 두 번 정도 영상을 올린다.</p>
+
+                    </div>
+                </div>
+
+                <div>
+
+                    <div class="video">
+                        <video autoplay controls src="https://youtu.be/6xaqHiJQYwg"></video>
+                    </div>
+                    <div class="videoDesc">
+                        <p>&nbsp;QnA 영상에서, 본인의 사생활 보호를 위해 최소한의 신상 정보 외에는 어떠한 사적인 정보도 공개하지 않겠다고 밝혔다. 거주지를 언급하지 않으며, 얼굴은커녕 목소리를 드러내지 않고, 가끔은 본인의 그림자까지 가린다. QnA에서도 나이 정도만 밝힐 뿐 키나 생일같은 사소한 질문마저 답하지 않았다.<br />
+                            &nbsp;예스러운 자막 글씨체, 요란한 표현 없이 담담한 자막과 편집, 낚시라는 취미, 무엇보다 시골에서 양어장을 운영한다는 것 때문에, 그의 연령대가 밝혀지기 전까지는 40대 이상으로 예상한 구독자들이 많았다. 또한 젊은이들의 용어를 잘 모르고, 등산복을 자주 입고, 핸드폰에 글자를 입력할 때 한 손으로 천지인 자판을 치는 모습에서도 아재 감성이 느껴진다. 그래서 haha ha가 QnA에서 나이를 밝혔을 때 ‘생각보다 어리다’는 반응이 많았다. 구독자들은 ha+아저씨의 의미를 담아 그를 'ha저씨'라고 부르기도 한다.
+                        </p>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="mgrid_12 grid_12">&nbsp;
+                <div class="article">
+                    <form>
+                        <select>
+                            <option>제목</option>
+                            <option>글쓴이</option>
+                            <option>제목+내용</option>
+                            <option>제목+글쓴이</option>
+                        </select>
+                        <input type="text" name="search">
+                        <input type="submit" value="검색">
+                    </form>
+                </div>
+                    <div class="article">
+                        <p>&nbsp;&nbsp;board-title-article-contents</p>
+                    </div>
+            </div>
+        </div>
+
+        <div class="row" id="footer">
+            <div class="mgrid_12 grid_12">W3Schools is optimized for learning, testing, and training. Examples might be simplified to improve reading and basic understanding. Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content. While using this site, you agree to have read and accepted our terms of use, cookie and privacy policy. Copyright &copy; 1999-2020 by Refsnes Data. All Rights Reserved.
+                Powered by W3.CSS.</div>
+        </div>
+    </div>
+</body></html>

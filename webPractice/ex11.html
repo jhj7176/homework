@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> Title </title>
+
+    <link rel="stylesheet" type="text/css" href="myGrid.css">
+    <style rel="stylesheet" type="text/css">
+        div {
+            background-color: white;
+        }
+
+        #header {
+            margin: -8px auto;
+            overflow: hidden;
+            position: fixed;
+        }
+
+        #header>div {
+            width: 1050px;
+            height: 35px;
+            overflow: hidden;
+            /*            background-color:aquamarine;*/
+            /*            border: 1px solid;*/
+
+
+        }
+
+        /*
+        #header>div+div{
+               overflow: hidden;
+            background-color:aquamarine;
+
+        }
+*/
+        #header>div>img {
+            margin: 8px auto;
+            width: 150px;
+
+            float: left;
+
+            overflow: hidden;
+
+        }
+
+        #header>div>h2 {
+            margin: 0px 0px 10px 0px;
+            width: 200px;
+            /*            float: left;*/
+            /*            position: fixed;*/
+
+            overflow: hidden;
+        }
+
+        #nav {
+            margin: 0px 0px 10px -10px;
+            overflow: hidden;
+            padding-top: 37px;
+
+        }
+
+        #nav>div {
+            margin: -10px auto;
+            width: 1200px;
+            overflow: hidden;
+            position: fixed;
+        }
+
+        #nav>div>ul {
+            background-color: beige;
+            height: 32px;
+            width: 985px;
+            overflow: hidden;
+            margin: auto 10px;
+            transition-duration: 2s;
+        }
+
+        #nav>div>ul:hover {
+            transition-duration: 2s;
+            /*            border: 1px solid;*/
+            height: 200px;
+        }
+
+        #nav>div>ul>li {
+            width: 120px;
+            text-align: center;
+            margin: 10px 10px 10px 75px;
+            list-style: none;
+            float: left;
+            padding: 0;
+        }
+
+        #nav>div>ul>li>a {
+            text-decoration: none;
+            display: block;
+            color: black;
+        }
+
+        #nav>div>ul>li>a:hover {
+            border: 1px solid;
+            padding: 1px 1px;
+            color: brown;
+
+        }
+
+        #nav>div>ul>li>ul {
+            border-top: 1px solid;
+        }
+
+        #nav>div>ul>li>ul>li {
+            margin: 15px 0px 0px 0px;
+        }
+
+        #nav>div>ul>li>ul>li>a {
+
+            text-decoration: none;
+            color: black;
+        }
+
+        #nav>div>ul>li>ul>li>a:hover {
+            color: brown;
+        }
+
+        #content {}
+
+        #content>div {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #content>div>div {
+            /*                        border: 1px solid; */
+            text-align: center;
+            float: left;
+        }
+
+
+        #content>div>div>img {
+            width: 800px;
+            /*            width: 70%;*/
+            display: inline-block;
+            margin: auto;
+
+            padding: 0px;
+
+        }
+
+
+
+
+
+        .article>form {
+            /*            border: 1px solid;*/
+            margin: 0px 0px 0px 10px;
+
+            width: 330px;
+            float: left;
+            /*            overflow: hidden;*/
+        }
+
+        .article+.article>p {
+            /*검색창 옆 p tag*/
+            width: 680px;
+            margin: auto;
+            border: 1px solid;
+            overflow: hidden;
+            /*            float: left;*/
+        }
+
+        .container>div+div+div+div+div>div>div>p {
+
+            /*검색창 옆 p tag*/
+            width: 1020px;
+            margin: auto;
+            border: 1px solid;
+            overflow: hidden;
+            /*            float: left;*/
+        }
+
+        #footer>div {
+            margin: 10px 0px 10px 0px;
+            text-align: center;
+            background-color: beige;
+            overflow-x: auto;
+        }
+
+
+
+        /*     #img {
+                        border: 1px solid;
+            width: 335px;
+            overflow: hidden;
+        }
+
+        #img>ul {
+            overflow: hidden;
+            width: 1500px;
+            animation-name: ani1;
+            animation-duration: 6s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate-reverse;
+            animation-play-state: paused;
+
+        }
+
+        #img>ul>li {
+            list-style: none;
+            float: left;
+        }
+
+        #img>ul>li>img {
+            float: none;
+            width: 200px;
+            height: 200px;
+        }
+
+        @keyframes ani1 {
+            from {
+                margin-left: 30px;
+            }
+
+            to {
+                margin-left: -930px;
+            }
+        }*/
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row" id="header">
+            <div class="mgrid_4 grid_12"><img src="img/sandbox.png">
+                <h2>&nbsp;Hahaha Channel</h2>
+            </div>
+        </div>
+
+        <div class="row" id="nav">
+            <div class="mgrid_6 grid_12">
+                <ul>
+                    <li><a href="ex10.html">Home</a>
+
+                        <ul>
+                            <li><a href="ex11.html">Intro</a></li>
+                            <li><a href="#">History</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="#">Video</a>
+
+                        <ul>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="#">Board</a>
+
+                        <ul>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+                    <li><a href="https://www.youtube.com/c/hahahaYouTube/featured">Youtube</a>
+
+                        <ul>
+                            <li><a href="ex12.html">Book</a></li>
+                            <li><a href="#">menu1</a></li>
+                        </ul>
+
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row" id="content">
+
+            <div class="mgrid_6 grid_12">
+                <div>
+                    &nbsp;
+                    <h2>고양이</h2>
+                    <p>2017년생 추정, 3세로 추정<br /><br />
+
+                        haha ha 양어장에 굴러들어 온 돌. 노란색+흰색+검은색 털이 섞인 삼색 무늬 암컷 고양이. haha ha 채널의 미모 담당이자 애교 담당. 눈가의 검정 아이라인과 코 옆의 점이 매력 포인트로,[19] 비슷한 고등어 태비 고양이들 사이에서 누가 봐도 한눈에 시선을 사로잡는 미묘다. 과할 정도로 뽀송한 털을 보유하고 있다. 양어장의 고양이들 중에서 독보적으로 높고 가녀린 울음소리를 낸다.</p>
+                    <img src="img/samsek6.jpg" alt="" />
+                </div>
+
+                <div>
+                    &nbsp;
+                    <p>
+
+                        뚱땅(구 노랭)<br /><br />
+                        2018년 3월 즈음 슬그머니 나타나 삼색이를 따라다녔던 수컷 치즈 태비 고양이. 발정기 때만 양어장에 찾아온다. 삼색이에게 면박 당한 이후 모습을 드러내지 않았으나, 이후 2019년 2월 22일자 영상에서 1년 만에 모습을 드러냈다. 이때 얼굴에 큰 상처를 입은 채 나타나 많은 시청자들의 걱정을 자아냈는데, 사람 손을 타면서도 경계심을 보이다 이내 사라졌다. 강아지와 너구리를 닮은 귀여운 외모와 뚱한 표정, 뚱땅뚱땅 발걸음[25]으로 큰 인기를 끌었고, 다시 나타나 주길 바라는 구독자들이 많았다. QnA와 2019년 10월 15일자 영상에 따르면 haha ha는 8월에 마을 입구에서 뚱땅이를 목격했는데 상처가 아문 상태였고 건강해 보였다고 한다.</p>
+                    <img src="img/tungtang.jpg" alt="" />
+                    <img src="img/tungttang2.gif" alt="" />
+                </div>
+
+                <div>
+                    &nbsp;
+                    <p>2017년생 추정, 3세로 추정<br /><br />
+
+                        haha ha 양어장에 굴러들어 온 돌. 노란색+흰색+검은색 털이 섞인 삼색 무늬 암컷 고양이. haha ha 채널의 미모 담당이자 애교 담당. 눈가의 검정 아이라인과 코 옆의 점이 매력 포인트로,[19] 비슷한 고등어 태비 고양이들 사이에서 누가 봐도 한눈에 시선을 사로잡는 미묘다. 과할 정도로 뽀송한 털을 보유하고 있다. 양어장의 고양이들 중에서 독보적으로 높고 가녀린 울음소리를 낸다.</p>
+                    <img src="img/samsek6.jpg" alt="" />
+                </div>
+
+                <div>
+                    &nbsp;
+                    <p>2017년생 추정, 3세로 추정<br /><br />
+
+                        haha ha 양어장에 굴러들어 온 돌. 노란색+흰색+검은색 털이 섞인 삼색 무늬 암컷 고양이. haha ha 채널의 미모 담당이자 애교 담당. 눈가의 검정 아이라인과 코 옆의 점이 매력 포인트로,[19] 비슷한 고등어 태비 고양이들 사이에서 누가 봐도 한눈에 시선을 사로잡는 미묘다. 과할 정도로 뽀송한 털을 보유하고 있다. 양어장의 고양이들 중에서 독보적으로 높고 가녀린 울음소리를 낸다.</p>
+                    <img src="img/samsek6.jpg" alt="" />
+                </div>
+
+                <div>
+                    &nbsp;
+                    <p><br /><br />
+                    </p>
+                </div>
+
+
+            </div>
+
+
+
+
+        </div>
+        <div class="row" id="footer">
+            <div class="mgrid_6 grid_12">W3Schools is optimized for learning, testing, and training. Examples might be simplified to improve reading and basic understanding. Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content. While using this site, you agree to have read and accepted our terms of use, cookie and privacy policy. Copyright &copy; 1999-2020 by Refsnes Data. All Rights Reserved.
+                Powered by W3.CSS.</div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var ul = document.querySelector('#img').firstElementChild;
+        ul.style.webkitAnimationName = 'ani1';
+        ul.style.animationPlayState = 'running';
+    </script>
+
+
+
+</body></html>
