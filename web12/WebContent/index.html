@@ -1,0 +1,2371 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="css/960.css" />
+<script src="jquery/jquery-1.12.4.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="css/dist/jquery.bxslider.css" />
+<script src="css/dist/jquery.bxslider.min.js"></script>
+<script src="jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=73c965258ca816cf5049ccb3b335741e?&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript">
+	var big, thumb, menu1, menu2, menu3, menu4;
+	var mn3_1, mn3_2, mn3_3;
+	var pageNum, key, word, cardinality, start, end, lang;
+	var map,container,options;
+	var marker,markerPosition;
+	var loginID, loginLvl;
+	
+	
+	pageNum=1;//처음에는 페이지링크 안누르므로. 1페이지부터 시작.
+	
+	function getDeptList() {//Dept테이블 정보
+		$.get("dept.bit", function(data) {
+			console.log(data);
+			var arr = data.students;
+			var msg = "";
+			for (var i = 0; i < data.students.length; i++) {
+				msg += "<tr align='center'>";
+				msg += "<td>" + arr[i].deptno + "</td>";
+				msg += "<td>" + arr[i].dname + "</td>";
+				msg += "<td>" + arr[i].loc + "</td>";
+				msg += "</tr>";
+			}
+			msg += "</table>";
+			$('.dept_list').append(msg);
+
+		});
+	}
+
+	function getEmpList() {//emp테이블정보 json형식으로 받음
+		var msg = "";
+		$.ajax('emp.bit', {
+			'method' : 'get',
+			'dataType' : 'json',
+			'success' : function(data) {
+				var arr = data.emp;
+				/*  {} {} {} {} */
+				arr.forEach(function(ele, idx) {
+					msg += "<tr>";
+					msg += "<td>" + ele.empno + "</td>";
+					msg += "<td>" + ele.ename + "</td>";
+					msg += "<td>" + ele.job + "</td>";
+					msg += "<td>" + ele.hiredate + "</td>";
+					msg += "<td>" + ele.mgr + "</td>";
+					msg += "<td>" + ele.sal + "</td>";
+					msg += "<td>" + ele.comm + "</td>";
+					msg += "<td>" + ele.deptno + "</td></tr>";
+				});
+				$('table').append(msg);
+			}//success
+		});//ajax
+	}//getEmpList
+	
+	
+	function getEmpXmlList(){//emp테이블 정보 xml로받음
+		var msg = "";
+		$.ajax('empxml.bit',{
+			'type':'get',
+			'dataType':'xml',
+			'success':function(data){
+				//<input type="checkbox" name="idx" id="empno" value="'+$(this).children().eq(0).text()+'"/>
+				
+				$(data).find('worker').each(function(){
+					$('<tr>').append('<td><input type="checkbox" name="idx" class="idx" value="'
+							+$(this).children().eq(0).text()+'"/>'+$(this).children().eq(0).text()+'</td>')
+					.append('<td>'+$(this).children().eq(1).text()+'</td>')
+					.append('<td>'+$(this).children().eq(2).text()+'</td>')
+					.append('<td>'+$(this).children().eq(3).text()+'</td>')
+					.append('<td>'+$(this).children().eq(4).text()+'</td>')
+					.append('<td>'+$(this).children().eq(5).text()+'</td>')
+					.append('<td>'+$(this).children().eq(6).text()+'</td>')
+					.append('<td>'+$(this).children().eq(7).text()+'</td></tr>')
+					.appendTo('.emp_list');
+				});
+			}//success
+		});//ajax
+		
+		/* $('#content>table a').click(function(){
+			return false;
+		}); */
+	}//getEmpXmlList
+	
+	
+	function empList(){//emp테이블 정의,emp DB데이터 붙여넣기
+		var msg = '<h1>EMP TABLE</h1><div class="dml"><a href="#">Add</a><a href="#">Select</a></div>'
+			+'<table class="emp_list"><tr><th>empno</th><th>ename'
+			+ '</th><th>job</th><th>hiredate</th>'
+			+ '<th>mgr</th><th>sal</th><th>comm</th><th>deptno</th>';
+	/* $('#content').html(msg); */
+	$('#car').hide();
+	$('#table').remove();
+	$('#board_post').hide();//emp와 관련없는 것들 전부 숨김  or삭제
+	$('#content').append($('<div id="table" class="grid_12"/>').html(msg));
+	getEmpXmlList();//emp정보 받아와서 테이블에 삽입
+	
+	$('#content>#table>.dml>a:first-child').click(function(){		//add <a/>
+		addShow();
+		$('#empForm').fadeIn();
+		console.log('check');
+		return false;
+	});
+	$('#content>#table>.dml>a:last-child').click(function(){		//delete <a/>
+		$('.idx').show();						//checkbox show
+		$('.idx').on('click', function(e){		//bubbling stop. tr클릭방지. 
+			e.stopPropagation();
+		});
+		console.log('check');
+		
+		if($(this).text()=='Delete'){//버튼이 delete글자 일때 클릭하면 select로 바뀜.
+			deleteEmps();
+			$('.idx').hide();		//체크박스 숨김
+			$(this).text('Select');
+		}else{
+			
+		$(this).text('Delete');//select일때 클릭하면 delete로 글자바뀜
+		
+		}
+
+		return false;
+	});//delete a
+
+	}
+	
+	function deleteEmps(){		//emp테이블 튜플 삭제. 
+		var empNumbers = 'empNumbers=';		//서블릿에 넘길 empno
+		$('.idx').each(function(){
+			if($(this).prop('checked')==true){		//체크된 체크박스 모두 모음.
+				empNumbers += $(this).val()+',';		//하나의 문자열로 모든 empno 합침
+		console.log(empNumbers);
+			}
+		});//each
+		$.post('empdelete.bit',empNumbers,function(data){//삭제서블릿으로 파라미터 전송
+			console.log(data);
+		});//post
+		 $('#content').slideUp(1000,function(){
+			 empList();
+		});
+			$('#content').delay(100).slideDown(1000);
+		
+	}//deleteemps
+	
+
+	function addShow(){	//입력input만 보이게하고 나머진 숨김.
+		$('#empForm>form input').show();
+		$('#empForm>form select').show();
+		$('#empForm>form input').val('');
+		$('#empForm>form select').children().first().prop('selected', true);
+		$('#empForm>h2').text('입력페이지');
+		$('#empForm>form>div').eq(4).hide();
+		$('#empForm>form>div').eq(5).hide();
+		$('#empForm>form>div').eq(6).hide();
+		$('#empForm>form>div').eq(7).hide();
+		
+	}
+	function addShowDept(){
+		$('#deptForm>form input').show();
+		$('#deptForm>form select').show();
+		$('#deptForm>form input').val('');
+		$('#deptForm>form select').children().first().prop('selected', true);
+		$('#deptForm>h2').text('입력페이지');
+		
+	}//addshow
+	function detailShow(){	
+		$('#empForm>h2').text('상세페이지');
+		$('#empForm>form>div').eq(4).show();
+		$('#empForm>form>div').eq(5).show();
+		$('#empForm>form>div').eq(6).show();
+		$('#empForm>form>div').eq(7).show();
+		
+	}//detailshow
+	
+
+			
+	function getBoardList(){	//board테이블 정의 및 DB에서 데이터 가져오기. 
+		var msg = '<h1>FREE BOARD</h1><div class="dml"><a href="#">Add</a></div>'
+			+'<table class="board_list"><tr><th>num</th><th>title'
+			+ '</th><th>writer</th><th>wtime</th></table>';
+		
+		$('#car').hide();
+		$('#table').remove();
+		$('#content').append($('<div id="table" class="grid_12"/>').html(msg));
+		$('#table th:nth-child(1)').css('width','50px');
+		$('#table th:nth-child(2)').css('width','400px');
+		$('#table th:nth-child(3)').css('width','65px');
+		$('#table th:nth-child(4)').css('width','50px');
+	
+		
+		key = '';	//글제목, 글쓴이. select option
+		word = '';//검색용 키워드,아직 미구현
+		var param = 'pageNum='+pageNum+'&key='+key+'&word='+word;
+		//db에 게시판글 목록 받아오기
+		$.ajax('board.bit',{
+			'type':'get',
+			'data':param,
+			'dataType':'xml',
+			'success':function(data){
+				//<input type="checkbox" name="idx" id="empno" value="'+$(this).children().eq(0).text()+'"/>
+				
+				$(data).find('post').each(function(){ //게시글post엘리먼트 검색. 데이터 추출. 
+					
+					var ref=$(this).children().eq(5);	//ref, no, lev 게시글 불러오는 순서 및 답글정렬
+					var no=$(this).children().eq(6);
+					var lev=$(this).children().eq(7).text();
+					//console.log('lev = '+Number(lev), parseInt(lev), typeof lev);
+					var replyTitleSpace = "";//답글 제목 앞 여백 
+					
+					for (var i = 0; i < lev; i++) {
+						replyTitleSpace += "&nbsp;&nbsp;&nbsp;";
+					}
+					//console.log(replyTitleSpace);
+					var re = replyTitleSpace + "[re]"; //여백+[답글마크]
+					if (lev == 0){
+						re = "";
+					}	
+					console.log(re, lev);
+					
+					$('<tr>').append('<td>'+$(this).children().eq(0).text()+'</td>')
+					.append('<td align="left">'+re+$(this).children().eq(1).text()+'</td>')
+					//title 앞 답글표시 + 들여쓰기
+					.append('<td>'+$(this).children().eq(2).text()+'</td>')
+					.append('<td>'+$(this).children().eq(3).text()+'</td></tr>')
+					.appendTo('.board_list');
+					
+					
+				});//each
+				
+				/*  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ*/
+				//총게시글 숫자 받아오기 select count(*)
+				var param3 = 'pageNum='+pageNum+'&key='+key+'&word='+word;
+				$.ajax('board.posts',{ 
+						'method':'get',
+						'data':param3,
+						'success':function(data){
+							cardinality = $(data).find('cardinality').text();
+							//총게시글수 cardinality에 저장.
+							console.log('총게시글수',cardinality);
+						
+						}
+					});
+			}//success
+		});//ajax
+				/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
+		createPageNum();//prev, next및 페이지번호링크 생성. a태그까지.		
+				
+		$('#content>#table>.dml>a').click(function(){		//add <a/>
+			console.log('게시판 add btn');
+			//제목, 글내용, 작성자 (insert 글넘버, 제목 작성자 작성시간, 내용)
+			//insert into board values ();
+			//num=board_seq.nextval & title=? & writer=? & wtime=sysdate & content=? & ref=board_seq.currval
+			//no = 0 & lev = 0;
+		
+			//addShow();
+			$('#boardForm').fadeIn();
+			$('#boardForm>form>div>input').val('');
+			$('#boardForm>form>div>textarea').val('');
+			//	var param5=
+			$.post('board.add',"param5",function(){
+				console.log('success');
+				
+				
+			});
+			
+			return false;
+		});		
+		
+	}//boardlist
+	
+	function createPageNum(){
+		 lang = 10; //한 페이지당 페이지 링크번호 수. 10개 
+		var left = 0;
+		if (cardinality % 20 != 0) //게시글 나누기 20의 나머지가 있는 경우 1페이지 추가
+			left = 1;
+		var totalPage = (cardinality - cardinality % 20) / 20 + left;
+		console.log('totalpage',totalPage);
+		 start = 1 + (parseInt((pageNum - 1) / lang)) * lang; //페이지 번호링크 시작
+		 end = start + lang; //페이지 번호링크 끝
+		if (end > totalPage)
+			end = totalPage + 1;
+		
+		var pageLink='<span id="pagePrev"><a href="#">prev&nbsp;</a></span>';
+			
+		//1 11 21 
+		
+		for(var i=start; i<end; i++){//페이지 링크 번호 10개씩 생성.
+				pageLink+='<span class="page_num"><a href="#">&nbsp;'+i+'&nbsp;</a></span>';
+			}
+
+		pageLink+='<span id="pageNext"><a href="#">&nbsp;next</a></span>';
+		$('<div id="page_num"/>').html(pageLink).insertAfter('.board_list');
+		//페이지링크 문자열을 게시판 테이블 뒤에 삽입. 
+	
+		$('#page_num').css("margin","auto").css('width','300px');//가운데 정렬
+		$('#page_num>span>a').css('color','black').css('text-decoration','none');
+		
+		if(pageNum/10<=1){
+			$('#pagePrev').hide();//prev태그가 1~10페이지일때는 hide
+			}else{
+			$('#pagePrev').show();
+			}
+		if(totalPage<end){
+			$('#pageNext').hide();//next태그가 마지막페이지가 있는 곳에서는 hide
+			}else{
+			$('#pageNext').show();
+			}
+		
+	}//createPageNum
+	
+	
+	function paging(){
+				//page 링크 눌렀을때 이벤트.
+				$('#page_num>span>a').each(function(idx, ele){
+					//console.log($(this));
+					 if($(this).text().trim()=='prev'){
+						$(this).on('click',function(){ //a tag 숫자변경.
+							start-=10;						//prev눌렀을때 이젠 페이지목록으로. 10칸 이동
+							pageNum=start;				//이전 페이지링크중 제일 앞 페이지번호로 게시판 이동
+							//console.log(parseInt(pageNum), typeof pageNum, typeof start);
+							var param2 = 'pageNum='+pageNum+'&key='+key+'&word='+word;
+							$.ajax('board.bit',{
+								'method':'get',
+								'data':param2,	//이동한 페이지번호 매개변수로 전달. 
+								'success':function(){
+									getBoardList();	//페이지번호에 맞는 emp정보 새로 불러옴.	
+									paging();	//테이블을 만들면서 페이지링크 새로 생성되서 paging함수로 이벤트도 새로 추가.
+								}//success
+							});//ajax
+							return false;//a태그 페이지이동 방지. 
+						});
+					}else if($(this).text().trim()=='next'){
+						$(this).on('click',function(){
+							start=end;
+							pageNum=start;
+							//console.log(parseInt(pageNum), typeof pageNum, typeof start);
+							var param4 = 'pageNum='+pageNum+'&key='+key+'&word='+word;
+							$.ajax('board.bit',{
+								'method':'get',
+								'data':param4,
+								'success':function(){
+									getBoardList();
+									paging();
+								}//success
+							});//ajax 
+							return false;
+						});					
+					}else{
+						$(this).on('click',function(){//next나 prev아닌 숫자링크 클릭했을 때, 게시판 새로불러옴. 
+							console.log($(this).text());
+							pageNum=parseInt($(this).text());
+							console.log(pageNum, typeof pageNum);
+							var param2 = 'pageNum='+pageNum+'&key='+key+'&word='+word;
+							$.ajax('board.bit',{
+								'method':'get',
+								'data':param2,
+								'success':function(){
+									getBoardList();
+									paging();
+								}//success
+							});//ajax //게시판 새로 불러오기.getlist함수 분리할것.
+							return false;
+						});//click					
+					}//if 
+					
+				});//each
+				
+				
+				/*	a태그로 page 링크 만들기.
+				prev next 링크.						
+					
+				*/
+					
+				/*
+				검색창
+				<form action="#">
+				<select id="search">
+					<option>제목</option>
+					<option>글쓴이</option>
+				</select>
+				<input type="text" id="input_search" name="input+search"/>
+				<button>search</button>
+			
+				</form>
+				
+				
+				*/
+				
+		
+	
+		
+	}
+	
+	
+	function etcTabs(){
+		/* etcYearTab1=$('#etc>.tab_list>li').eq(0);
+		etcYearTab2=$('#etc>.tab_list>li').eq(1);
+		etcYearTab3=$('#etc>.tab_list>li').eq(2);
+		etcYearTab4=$('#etc>.tab_list>li').eq(3);
+		etcYearTab5=$('#etc>.tab_list>li').eq(4);
+		
+		$('etcYearTab1').on('click',function(){
+			$('#etc>.tab_list>li').eq(0).css('border','1px solid gray').css('border-bottom','0px solid');
+			$('#etc>.tab_list>li').eq(1).css('border','0px solid gray').css('border-bottom','1px solid');
+			$('#etc>.tab_list>li').eq(2).css('border','0px solid gray').css('border-bottom','1px solid');
+			$('#etc>.tab_list>li').eq(3).css('border','0px solid gray').css('border-bottom','1px solid');
+			$('#etc>.tab_list>li').eq(4).css('border','0px solid gray').css('border-bottom','1px solid');
+			console.log('check');
+			
+		});
+		$('etcYearTab2').on('click',function(){});
+		$('etcYearTab3').on('click',function(){});
+		$('etcYearTab4').on('click',function(){});
+		$('etcYearTab5').on('click',function(){}); */
+		
+		$('#etc>.tab_list>li').each(function(idx, ele){ //연도 탭 5개. 
+			//하나 누를때마다 눌린 탭과 나머지탭의 border와 배경색, 이벤트 변경, 이미지 로드
+			$(this).on('click',function(){
+				$(this).css('border','1px solid #dddddd')
+				.css('border-top-right-radius','10px')
+				.css('border-top-left-radius','10px')
+				.css('border-bottom','0px solid');
+				$('#etc>.tab_list>li').not($(this))
+				.css('border','0px solid')
+				.css('border-bottom','1px solid #dddddd');
+				
+		 		$(this).css('background-color','white'); 
+				
+				$('#etc>.tab_list>li').not($(this)).on('mouseover',function(){
+						$(this).css('background-color','antiquewhite')
+					});//mouseEnter
+				$('#etc>.tab_list>li').not($(this)).on('mouseleave',function(){
+						$(this).css('background-color','white')
+					});//mouseEnter
+					
+				$(this).on('mouseover',function(){
+						$(this).css('background-color','white')
+					});//mouseEnter
+				$(this).on('mouseleave',function(){
+						$(this).css('background-color','white')
+					});//mouseEnter
+
+				
+/* 				$('#etc>.tab_list>li').not($(this)).hover(function(){
+					$(this).on('mouseover',function(){
+						$(this).css('background-color','aliceblue')
+					})//mouseEnter
+				}, function(){
+					$(this).on('mouseout',function(){
+						$(this).css('background-color','white');
+					})//mouseLeave
+				});//hover
+ 				
+				$(this).hover(function(){
+					$(this).on('mouseover',function(){
+						$(this).css('background-color','white')
+					})//mouseEnter
+				},function(){
+					$(this).on('mouseout',function(){
+						$(this).css('background-color','white');
+					})//mouseLeave
+				});//hover */
+		
+				$('.etcImg').attr('src','img/history'+idx+'.jpg');//연도 탭 별로 로드할 이미지이름 부여.
+			});//onClick
+		
+		});//each
+		
+	
+	}//etcTabs
+	
+	function kakaoMap(){
+		container = document.getElementById('map');
+		options = {
+			center: new kakao.maps.LatLng(33.450701, 126.570667),
+			//center: new kakao.maps.LatLng(37.503207, 127.024278),
+			level: 3
+		};
+
+		map = new kakao.maps.Map(container, options);
+	
+		markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667); 
+
+		// 마커를 생성합니다
+		marker = new kakao.maps.Marker({
+		    position: markerPosition
+		});
+		
+		marker.setMap(map);//marker를 지도에 표시
+		
+		
+		var mapTypeControl = new kakao.maps.MapTypeControl();
+
+		// 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+		// kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+		map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+		// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+		var zoomControl = new kakao.maps.ZoomControl();
+		map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+	
+	
+		var iwContent = '<div style="padding:5px;">비트캠프 제주점</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+	    iwPosition = new kakao.maps.LatLng(33.450701, 126.570667), //인포윈도우 표시 위치입니다
+	    iwRemoveable = true; // removeable 속성을 ture 로 설정하면 인포윈도우를 닫을 수 있는 x버튼이 표시됩니다
+
+	// 인포윈도우를 생성하고 지도에 표시합니다
+		var infowindow = new kakao.maps.InfoWindow({
+	    map: map, // 인포윈도우가 표시될 지도
+	    position : iwPosition, 
+	    content : iwContent,
+	    removable : iwRemoveable
+	});
+	
+	
+	
+	}
+
+	function home() {	//home 메뉴 눌렀을 때, 캐러셀과 사이드바뺴고는 전부 숨김or제거
+/* 		location.reload(false); */
+		$('#content').slideUp(1000,function(){
+			$('#car').show();			
+			$('#intro').hide();
+			$('#etc').hide();
+			$('#board_post').hide();
+			$('#div_edit').hide();
+			$('#table').remove();
+		});
+		$('#content').slideDown(1000);
+	}
+	
+	//ready
+	$(function() {
+		etcTabs();
+		
+		$(document).on('click','#content>#table>table tr',function(){
+			
+			if($(this).parent().parent().parent().children().eq(0).text()=='EMP TABLE'){
+			console.log($(this).children().first().text());
+			var param ='idx='+$(this).children().first().text();
+			$('.detail').remove();
+			$('#empForm').fadeIn();
+			detailShow();
+			//.get, .post를 쓰면 ajax가 일을 수행함 type에 맞춰서.
+			$.ajax('empone.bit',{
+				'type':'get',
+				'data':param,
+				'success':function(data){	
+			$('#empno').val($(data).find('empno').text());
+		//	console.log('empno = ',$('#empno').val($(data).find('empno').text()));
+			$('#ename').val($(data).find('ename').text());
+			$('#job').val($(data).find('job').text());
+			$('#mgr').val($(data).find('mgr').text());
+			$('#hiredate').val($(data).find('hiredate').text());
+			$('#sal').val($(data).find('sal').text());
+			$('#comm').val($(data).find('comm').text());
+			$('#deptno1').children().each(function(){
+					if($(this).val()==$(data).find('deptno').text()){
+						
+						$(this).prop('selected',true);
+						
+					}//if
+			});//each
+					
+			console.log('empno = ',$('#empno').val());
+ 			$('#empForm>form>div>label').each(function(){
+				$(this).next().hide();
+				var span = $('<label class="detail"/>');
+				var msg = $(this).next().val();
+				console.log(msg);
+				$(this).after(function(){
+					$(span).append(msg);
+					$(span).css('text-align','center');
+					$(span).css('width','200px');
+					$(span).css('margin','auto');
+					$(span).css('padding','0px');
+					$(span).css('border','0px');
+					$(span).css('display','inline-block');
+					return $(span);
+				});
+				
+				
+			});//each 
+			
+			
+				}//success
+			});//ajax
+			
+			}//emp if
+			else if($(this).parent().parent().parent().children().eq(0).text()=='DEPT TABLE'){
+				var obj = {"idx":$(this).children().first().text()};
+				$.getJSON('deptdetail.bit',$.param(obj),function(data){
+					//get방식일 때 JSON 데이터를 받을때만 사용가능
+					console.log(data);
+					
+					$('#deptForm').find('input').eq(0).val(data.dept[0].deptno);
+					$('#deptForm').find('input').eq(1).val(data.dept[0].dname);
+					$('#loc').children().each(function(ele, idx){
+							console.log(data.dept[0].loc);
+							console.log($(this).val());
+							
+						if(data.dept[0].loc == $(this).val()){
+							$(this).prop('selected', true);
+							console.log('data.dept[0].loc ');
+						}
+					});
+					$('#deptForm').fadeIn();
+					
+		 			$('#deptForm>form>div>label').each(function(a,b){
+						$(this).next().hide();
+						var msg = $(this).next().val();
+						var span = $('<label class="detail"/>');
+						$(this).after(function(){
+		 				console.log(msg);
+							$(span).append(msg);
+							$(span).css('text-align','center');
+							$(span).css('width','200px');
+							$(span).css('margin','auto');
+							$(span).css('padding','0px');
+							$(span).css('border','0px');
+							$(span).css('display','inline-block');
+							return $(span);
+						});
+						
+						
+					});//each 
+					
+					
+				});//getJson
+			}//dept if
+			
+			/*
+			bean.getNum() + "</num>");
+			out.print("<title>" + bean.getTitle() + "</title>");
+			out.print("<writer>" + bean.getWriter() + "</writer>");
+			out.print("<wtime>" + bean.getWtime() + "</wtime>");
+			out.print("<content>" + bean.getContent() + "</content>");
+			
+			*/
+			else if($(this).parent().parent().parent().children().eq(0).text()=='FREE BOARD'){
+				
+				var param ='num='+$(this).children().first().text();
+				$.ajax('board.content',{
+					'method':'get',
+					'data':param,
+					'dataType':'xml',
+					'success':function(data){
+						
+					console.log($(data).find('post').children().eq(0).eq(0).text(),'num');
+
+					$('.post_title').html('<span id=p_num>'+$(data).find('post').children().eq(0).eq(0).text()+'</span>');//num
+					$('#p_num').hide();
+					$('.post_title').append($(data).find('post').children().eq(1).eq(0).text());//title
+					$('.post_writer').text($(data).find('post').children().eq(2).eq(0).text());//
+					$('.post_wtime').text($(data).find('post').children().eq(3).eq(0).text());//
+					$('.post_content').html($(data).find('post').children().eq(4).eq(0).text()
+							.replace(/ /gi,'&nbsp;').replace(/\n/gi,'<br/>'));
+					$('#table').remove();
+					$('#board_post').show();
+					}
+
+				});//ajax
+			}//else if
+		});//click
+		
+		
+		big = $('#big').bxSlider({
+			'slideWidth' : '300px',
+			'minSlides' : 2,
+			'maxSlides' : 2,
+			'moveSlides' : 1,
+			'pager' : 'false',
+			'controls' : 'false',
+			'mode' : 'horizontal'
+
+		});
+
+		thumb = $('#thumb').bxSlider({
+			'slideWidth' : '200px',
+			'mode' : 'horizontal',
+			'minSlides' : 3,
+			'maxSlides' : 3,
+			'moveSlides' : 1,
+			'randomStart' : 'true',
+			'touchEnabled' : 'true',
+			'auto' : 'true',
+			'infiniteLoop' : 'true',
+			'speed' : 2000,
+			'onSlideBefore' : function(a, b, c) {
+				big.goToSlide(c);
+			}
+		});
+
+		menu1 = $('#menu>ul>li').eq(0);
+		menu2 = $('#menu>ul>li').eq(1);
+		menu3 = $('#menu>ul>li').eq(2);
+		menu4 = $('#menu>ul>li').eq(3);
+		menu3_1 = $('#menu>ul>li>ol>li').eq(0);
+		menu3_2 = $('#menu>ul>li>ol>li').eq(1);
+		menu3_3 = $('#menu>ul>li>ol>li').eq(2);
+
+		menu1.on('click', function() {
+			home();
+			return false;
+		});
+
+		menu2.on('click', function(){
+			
+			$('#content').stop().slideUp(1000, function(){
+			$('#div_edit').hide();
+			$('#intro').show();
+			$('#car').hide();
+			$('#board_post').hide();
+			$('#etc').hide();
+			$('#table').remove();
+				
+			});
+			$('#content').slideDown(1000);
+			return false;
+		})
+		
+		
+		menu3.on('click', function() {
+			return false;
+		});
+
+		menu3_1.on('click', function() {
+			$('#content').stop().slideUp(1000,function(){
+				$('#intro').slideUp(1000);
+				$('#etc').hide();
+				$('#div_edit').hide();
+				 empList();
+				$('#content').delay(100).slideDown(1000);			
+			});
+			return false;
+		});
+
+		menu3_2.on('click', function() {
+			$('#content').stop().slideUp(1000,function(){
+			var msg = '<h1>DEPT TABLE</h1><div class="dml"><a href="#">ADD</a></div><table class="dept_list"><tr>'
+					+ '<th>deptno</th><th>dname</th><th>loc</th>';
+			$('#car').hide();
+			$('#etc').hide();
+			$('#board_post').hide();
+			$('#table').remove();
+			$('#div_edit').hide();
+			$('#intro').slideUp(1000);
+			$('#content').append($('<div id="table" class="grid_12"/>').html(msg));
+			getDeptList();
+			$('#content>#table>.dml>a').click(function(){		
+				addShowDept();
+				$('#deptForm').fadeIn();
+				console.log('check');
+				return false;
+			});
+			$('#content').delay(100).slideDown(1000);
+				
+			});
+
+			return false;
+		});
+		
+		menu3_3.on('click',function(){			//게시판 메뉴
+			$('#content').stop().slideUp(1000,function(){
+				$('#intro').slideUp(1000);
+				$('#etc').hide();
+				$('#div_edit').hide();
+				getBoardList();
+				paging();
+				$('#board_post').hide();
+				$('#content').delay(100).slideDown(1000);			
+			});
+			return false;
+			
+			
+		});
+		
+		
+		menu4.on('click',function(){			//Etc메뉴
+			$('#content').stop().slideUp(1000, function(){
+				
+				$('#intro').hide();
+				$('#car').hide();
+				$('#board_post').hide();
+				$('#table').remove();
+				$('#div_edit').hide();
+				$('#etc').fadeIn(function(){
+					kakaoMap();
+				});
+			});
+			$('#content').delay(50).slideDown(1000);
+				return false;
+			
+		});
+		
+		
+		$('#menu>ul>li>ol').hide();
+
+		$('#menu>ul>li:nth-child(3)').on('mouseenter', function() {
+			$('#menu>ul>li>ol').stop().slideDown();
+
+		});
+		$('#menu>ul>li:nth-child(3)').on('mouseleave', function() {
+			$('#menu>ul>li>ol').stop().slideUp();
+
+		});
+	
+		$('#empForm>form').submit(function(){
+			console.log($(this).serialize());
+			
+			if($(this).prev().text()=='입력페이지'){
+			
+			 $.ajax('empadd.bit',{
+				 'method':'post',
+				 'data':$(this).serialize(),
+				 'success':function(data){
+					 
+					 $('#empForm').click();
+					 $('#content').slideUp(1000,function(){
+						 empList();
+						$('#content').delay(100).slideDown(1000);
+					});//slideup
+				 }//success
+				
+			}); //ajax
+			 
+			}else if($(this).prev().text()=='상세페이지'){
+				$('.detail').remove();
+				$(this).prev().text('수정페이지');
+				$(this).find('label').next().show();	
+			}else if($(this).prev().text()=='수정페이지'){
+				
+				$('#empForm').hide();
+	 			$.ajax('empupdate.bit',{
+					 'method':'post',
+					 'data':$(this).serialize(),
+					 'success':function(data){
+						/*  $('#empForm').click(); */
+						 $('#content').slideUp(1000,function(){
+							 empList();
+						});
+							$('#content').delay(100).slideDown(1000);
+					 }//success
+				});//ajax  
+							/*  empList(); */
+			}//elseif
+			
+			return false;
+		});//form submit
+				 
+				 
+	 	$('#empForm,#deptForm').hide(); 
+		$('#empForm,#deptForm,#boardForm').on('click',function(e){
+			e.stopPropagation();
+			$('.detail').remove();		
+			$(this).hide();
+		});
+		
+		$('#empForm>h2, #empForm>form, #deptForm>h2, #deptForm>form, #boardForm>h2, #boardForm>form').on('click',function(e){
+			e.stopPropagation();
+		});//클릭이벤트 전파방지,버블링x
+
+	
+	/* 	
+		$(document).on('click','#content>table input',function(e){
+			 e.stopPropagation(); 
+			console.log($(this).val());
+		}); */
+		$('#header>h1').on('click',function(){ //헤더 로고 클릭시 새로고침.>메인화면로드. 
+			location.reload();
+		});
+		
+		$('#etc>.tab_list>li:first-child').click();//초기값 설정. 제일왼쪽탭 눌린상태로 만듦.
+		
+		//$.post(); $('boardForm')
+		$('#boardForm>form').submit(function(){	//자유게시판 글 업로드.
+			var title = $('#title').val();
+			var writer = $('#writer').val();
+			var post_content = $('#post_content').val();
+			var param5 = 'title='+title+'&writer='+writer+'&post_content='+post_content;
+			console.log(typeof post_content,'보드 폼 서브밋',param5);
+			
+			$.post('add.posts',param5,function(){
+				console.log('add post');
+				$('#boardForm').fadeOut();
+				menu3_3.click();
+			});//post
+			
+			return false;
+		});//submit
+		
+		
+		/* 
+		$('.post_title').append($(data).find('post').children().eq(1).eq(0).text());//title
+		$('.post_writer').text($(data).find('post').children().eq(2).eq(0).text());//
+		$('.post_wtime').text($(data).find('post').children().eq(3).eq(0).text());//
+		$('.post_content').html($(data).find('post').children().eq(4).eq(0).text().replace(/\n/gi,'<br/>'));
+		
+
+		*/
+		/*  
+		
+		board post div > post table을 <form> wrap()으로 감싸고 각 <tr>요소에 input과 textarea로 채우고
+													title, writer, content내용을 붙여넣음.
+													작가는 readonly로 고정
+													content는 replace(/\n/gi,'<br/>')로 개행처리
+		*/		
+		$('.post_table_btns').children().eq(0).click(function(){	//게시글 수정버튼
+			console.log('cheack btn');								//수정페이지로.
+			var ptitle = $('.post_title').text().replace($('.post_title>span').text(),'');//제목
+			console.log(ptitle, typeof ptitle);
+			var pwriter = $('.post_writer').text();//작성자
+			var pwtime = $('.post_wtime').text();//작성시간
+			var pcontent = $('.post_content').text().replace('\n','<br/>');//내용
+			$('.post_content').text('');//td > div속 하위요소, 내용지움..
+			
+			//제목 작성자 내용을 form 요소들로 옮김. 
+			$('#edit_title').val(ptitle);
+			$('#edit_writer').attr('value',pwriter);
+			$('#txtarea').html(pcontent);
+			
+			//$('.post_table_btns>button:nth-child(2)').hide();			
+			$('#board_post').hide();
+			$('#content').prepend($('#div_edit'));
+			$('#div_edit').show();
+		//	$.post('edit.posts',param7,function(){});//post
+		
+			$('#edit_post').submit(function(){
+				var num = $('.post_title>span').text();//수정한 글번호
+				var etitle = $('#edit_title').val();//수정한 제목
+				var econtent = $('#txtarea').val();//수정한 내용
+				var param7='num='+num+'&title='+etitle+'&writer='+pwriter+'&content='+econtent;				
+				$.ajax('edit.posts',{
+					'method':'post',
+					'data':param7,
+					'success':function(data){
+						console.log('수정성공');
+						menu3_3.click();		//게시판 목록으로 나감.
+					},
+					'error':function(data){
+						console.log('실패');
+					}//error
+				});//ajax
+				return false;	//form 페이지이동 방지
+			});//submit
+		
+			$('.post_table_btns').children().eq(1).click(function(){	//게시글 뒤로가기버튼
+				console.log('cheack btn');	
+				$('#div_edit').hide();
+				menu3_3.click();			//게시판 목록으로 나감
+			});
+			
+		});
+		$('.post_table_btns').children().eq(1).click(function(){	//게시글 삭제버튼
+			console.log('delete btn');								//삭제할 게시글 번호
+			var param6 = 'num='+$('#p_num').text();
+			$.post('delete.posts',param6,function(){
+				console.log('delete success')
+			});//post
+			menu3_3.click();
+		});
+		$('.post_table_btns').children().eq(2).click(function(){	//게시글 뒤로가기버튼
+			console.log('cheack btn');	
+			menu3_3.click();
+		});
+		
+		console.log($('#side_loginBtn').attr('src'), typeof $('#side_loginBtn').attr('src'));
+		
+		
+		//////////////////////////////////////////////////////사이드바 로그인, 로그아웃 
+		$('#side_login').submit(function(){
+		
+	//	if($('#side_loginBtn').attr('src')=='img/btn_logout.png'){			
+			$('#side_loginBtn').one('click',function(){
+				sessionStorage.removeItem("mineSession", loginID);
+			$(this).attr('src','img/btn_login.png');
+			$('#login_user').remove();
+			$('#side_pw').val('');
+			$('#side_id').val('');
+			$('#side_login>ul').show();
+				return false;
+			});
+	//	}
+			var memberId=$('#side_id').val();
+			var memberPw=$('#side_pw').val();
+			console.log(memberId, memberPw);
+			var param11 = 'id='+memberId+'&password='+memberPw;
+	
+			$.ajax('login.bit',{
+				'method':'post',
+				'data':param11,
+				'success':function(data){
+					console.log(data);
+					
+					loginID = $(data).find('login').children().eq(0).text()+'님 환영합니다.<br/><br/>';
+					loginLvl = $(data).find('login').children().eq(1);
+					console.log(loginID);
+					if(loginID=='님 환영합니다.<br/><br/>'){
+						alert('아이디 혹은 비밀번호를 다시 확인해세요.');
+						return;
+					}
+					
+					
+					var msg = $('<span id="login_user"/>').html(loginID);
+					sessionStorage.setItem("mineSession",loginID);
+					
+					$('#side_login>ul').hide();
+					$('#side_loginBtn').attr('src','img/btn_logout.png');
+					var loginWelcome = (loginID);
+					$('#side_login').prepend(msg);		
+					
+				},//success
+				'error':function(){
+					console.log('fail');
+				}//error
+			});
+			
+			return false;	
+		});
+	});//document ready
+
+	
+	
+</script>
+
+
+<!-- <link rel="stylesheet" type="text/css" href="css/header.css" /> -->
+<style rel="stylesheet" type="text/css">
+
+#header button{
+	background-color:white;
+	border:0px solid;
+	position:relative;
+	padding:1px;
+	margin:0px 0px 0px 0px;
+	cursor:pointer;
+	
+}
+#header button:hover{
+	background-color:antiquewhite;
+	border-radius:25px;
+}
+#header button img{
+	display:inline-block;
+	width:90px;
+
+	
+}
+
+
+
+
+
+
+#header {
+	overflow: hidden;
+}
+
+#header>h1 {
+	cursor:pointer;
+	width: 200px;
+	height: 60px;
+	float: left;
+	text-indent: -9099px;
+	background-image: url("img/char.png");
+}
+
+#header>form {
+/* 	 	border:1px solid red; */
+	top: 0px;
+	position: relative;
+	float: right;
+	width: 480px;
+}
+
+#header>form>div {
+/* border:1px solid; */
+	display: inline;
+	float: left;
+	width: 140px;
+}
+
+#header>form>div:last-child {
+	display: inline;
+	float: left;
+	width: 190px;
+}
+
+#header>form>div>label {
+	display: inline-block;
+	width: 20px;
+}
+
+#header>form>div>input {
+	display: inline-block;
+	width: 98px;
+}
+
+#header>form>div>button {
+}
+
+#menu {
+	z-index: 1;
+	margin: 0px auto;
+	clear: both;
+	overflow: hidden;
+	height: 52px;
+	background-color: white;
+}
+
+#menu>ul {
+	list-style: none;
+	overflow: hidden;
+	width: 410px;
+	margin: 0px auto;
+	padding: 0px;
+}
+
+#menu>ul>li {
+	border: 1px solid;
+	padding: 0px;
+	float: left;
+	width: 100px;
+	height: 50px;
+	line-height: 50px;
+	
+}
+
+
+
+#menu>ul li:hover {
+	background-color: antiquewhite;
+}
+
+#menu>ul>li>a {
+	text-align: center;
+	text-decoration: none;
+	color: black;
+	display: block;
+	text-decoration: none;
+}
+
+#menu>ul>li>ol {
+	position: absolute;
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+	background-color: white;
+	border-bottom: 1px solid;
+	text-align: center;
+	z-index: 1;
+}
+
+#menu>ul>li>ol>li {
+	width: 100px;
+	height: 50px;
+}
+
+#menu>ul>li>ol>li>a {
+	text-decoration: none;
+	color: black;
+	display: block;
+}
+
+#content {
+	margin-top: 20px;
+	margin-bottom:30px;
+	border-top: 1px solid gray;
+}
+
+#footer {
+	width:960px;
+	margin:auto;
+	background-color: whilte;
+	border-top: 1px solid gray;
+}
+
+#footer>img{
+	float:left;
+}
+#footer>address{
+	float:left;
+}
+
+#footer>div {
+	width: 520px;
+	margin: auto;
+	margin-top:20px;
+/* 	border:1px solid; */
+	display:block;
+
+	
+}
+#footer>div>div{
+	float:right;
+}
+
+#content h1 {
+	text-align: center;
+}
+
+#big>div>img {
+	width: 400px;
+	height: 400px;
+
+	z-index: -1;
+}
+#big{
+	margin:auto;
+}
+#thumb {
+	margin-left:60px;
+	margin:auto;
+}
+
+#thumb>div>img {
+	width: 200px;
+	height: 200px;
+}
+
+#content{
+	overflow:hidden;
+/* 	border:1px solid; */
+}
+
+.grid_12{
+	padding:0px;
+}
+
+#car{
+/* 	border: 1px solid; */
+	margin-top: 30px;
+	margin-left:15px;
+	z-index: -2;
+	
+}
+
+
+#side_bar{
+	border:0px solid red;
+	float:right;
+	vertical-align:middle;
+	display:block;
+	margin:auto;
+
+}
+#side_bar>div>fieldset>#login_title{
+	font-size:130%;
+}
+#side_bar>div ul{
+padding:6px;
+	list-style:none;
+}
+#side_bar>div>div>img{
+	
+}
+#side_login{
+	text-align:right;
+}
+#side_login input{
+	display:inline-block;
+
+}
+#side_bar>#login button{
+	cursor:pointer;
+	background-color:white;
+	border:0px solid;
+}
+#side_bar>#login button:hover{
+	cursor:pointer;
+	background-color:antiquewhite;
+	border:0px solid;
+	border-radius:25px;
+}
+
+#side_bar>#login button>img{
+
+}
+
+#side_bar>div table,tr,th,td{
+	border:0px solid;
+	
+}
+
+#side_bar>div th,td{
+	border:0px solid;
+	font-size:60%;
+	
+}
+
+
+#content table {
+
+	margin: auto;
+	margin-bottom:20px;
+	clear: both;
+}
+
+#content tr {
+z-index: 0;
+	
+	text-align: center;
+}
+
+#content tr:nth-child(even) {
+	background-color: #eeeeee;
+}
+
+#content th {
+	border: 1px solid;
+	padding: 5px;
+	width: 120px;
+	margin: auto;
+}
+#content td {
+	heigtht:30px;
+}
+
+
+#content>#table>.dml>a, a+a{
+	text-align:center;
+	/* border-radius:5px; */
+	width: 70px;
+	height: 20px;
+	line-height:20px;
+	display:inline-block;
+	font-size:120%;
+	background-color:white;
+	text-decoration:none;
+	color: black;
+	padding: 3px;
+	border:0.5px solid;
+	margin: 0px 5px 0px 0px;
+}
+#content>#table>.dml>a:hover, a+a:hover{
+	background-color:antiquewhite;
+}
+
+#content>#table>.dml{
+    text-align:center;
+	/* border:1px solid; */
+	display: block;
+	margin: auto;
+	width: 200px;
+	height: 30px;
+	
+}
+
+#content>#table>table a{
+text-decoration: none;
+color: black;
+}
+#content>#table>table tr:nth-child(1)~:hover{
+z-index: 0;
+text-decoration: none;
+/* font-size:105%; */
+cursor:pointer;
+color: chocolate;
+}
+
+
+#content>#table>table input{
+ z-index:3;
+ float: left;
+ display: none;
+}
+#empForm{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	margin: 0px auto;
+	background-color: rgba(100,100,100,0.5);
+}
+
+#empForm>h2{
+	text-align:center;
+	line-height:100px;
+	width: 500px;
+	height:100px;
+	margin: 150px auto;
+	margin-bottom : -100px;
+	background-color:white;
+}
+#empForm>form{
+	width: 500px;
+/* 	height:300px; */
+	margin:100px auto;
+	background-color: white;
+}
+#empForm>form>div{
+	/* border:1px solid red; */
+}
+#empForm>form>div>label{
+	text-align:center;
+	display:inline-block;
+	width: 200px;
+	border: 1px solid;
+	padding: 3px;
+	margin-left:40px;
+	}
+#empForm>form>div>input{
+	width: 200px;
+}
+#empForm>form>div>select{
+	width: 205px;
+}
+
+#empForm>form>div:first-child{
+ /* 	border:1px solid; */
+
+}
+#empForm>form>div:last-child{
+/* 	border:1px solid; */
+	margin: 20px auto;
+	padding-bottom: 20px;	
+
+}
+#empForm>form>div>button{
+
+	text-align: center;
+	display:inline-block;
+	margin-left:0px;
+	padding:0px;
+	width: 150px;
+}
+#empForm>form>div>button:first-child{
+	margin-left:100px;
+}
+#deptForm{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	margin: 0px auto;
+	background-color: rgba(100,100,100,0.5);
+}
+
+#deptForm>h2{
+	text-align:center;
+	line-height:100px;
+	width: 500px;
+	height:100px;
+	margin: 150px auto;
+	margin-bottom : -100px;
+	background-color:white;
+}
+#deptForm>form{
+	width: 500px;
+/* 	height:300px; */
+	margin:100px auto;
+	background-color: white;
+}
+#deptForm>form>div{
+	/* border:1px solid red; */
+}
+#deptForm>form>div>label{
+	text-align:center;
+	display:inline-block;
+	width: 200px;
+	border: 1px solid;
+	padding: 3px;
+	margin-left:40px;
+	}
+#deptForm>form>div>input{
+	width: 200px;
+}
+#deptForm>form>div>select{
+	width: 205px;
+}
+
+#deptForm>form>div:first-child{
+ /* 	border:1px solid; */
+
+}
+#deptForm>form>div:last-child{
+/* 	border:1px solid; */
+	margin: 20px auto;
+	padding-bottom: 20px;	
+
+}
+#deptForm>form>div>button{
+	
+	text-align: center;
+	display:inline-block;
+	margin-left:0px;
+	padding:0px;
+	width: 150px;
+}
+#deptForm>form>div>button:first-child{
+	margin-left:100px;
+}
+#boardForm{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 952px;
+	margin: 0px auto;
+	background-color: rgba(100,100,100,0.5);
+}
+
+#boardForm>h2{
+	text-align:center;
+	line-height:100px;
+	width: 500px;
+	height:100px;
+	margin: 150px auto;
+	margin-bottom : -100px;
+	background-color:white;
+}
+#boardForm>form{
+	width: 500px;
+/* 	height:300px; */
+	margin:100px auto;
+	background-color: white;
+}
+#boardForm>form>div{
+	/* border:1px solid red; */
+}
+#boardForm>form>div>label{
+	text-align:center;
+	display:inline-block;
+	width: 80px;
+	border: 1px solid;
+	padding: 3px;
+	margin-left:40px;
+	}
+#boardForm>form>div>input{
+	width: 320px;
+}
+#boardForm>form>div>textarea{
+	width:320px;
+	resize:none;
+}
+
+#boardForm>form>div:first-child{
+ /* 	border:1px solid; */
+
+}
+#boardForm>form>div:nth-child(3)>label{
+	vertical-align:top;
+
+}
+#boardForm>form>div:last-child{
+/* 	border:1px solid; */
+	margin: 20px auto;
+	padding-bottom: 20px;	
+
+}
+#boardForm>form>div>button{
+	
+	text-align: center;
+	display:inline-block;
+	margin-left:0px;
+	padding:0px;
+	width: 150px;
+}
+#boardForm>form>div>button:first-child{
+	margin-left:100px;
+}
+
+
+#intro{
+	display: none;
+	width:735px;
+/* 	border:1px solid; */
+	margin: auto;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+.title_bar{
+	font-size:120%;
+	background-color:black;
+	float: left;
+}
+.title_txt{
+	font-size:120%;
+	float: left;
+	margin-bottom:20px;
+}
+
+#intro_table>div>table{
+	
+}
+#intro>ul{
+/* border:1px solid; */
+	margin:auto;
+	width:700px;
+	margin-top:50px;
+	overflow:hidden;
+	clear:both;
+	list-style:none;
+	font-size:90%;
+}
+#intro>ul>li{	
+	clear:both;
+}
+.teacher_sub>li:first-child{
+	color:#4d4d4d;
+	font-size:150%;
+}
+.teacher_sub>li:last-child{
+	font-size:110%;
+}
+#intro>ul>li>dl{
+}
+#intro>ul>li>dl>dt{
+	float:left;
+}
+#intro>ul>li>dl>dt>img{
+	width:180px;
+	height:150px;
+	float:left;
+}
+#intro>ul>li>dl>dd{
+	float:left;
+}
+#intro>ul>li>dl>dd>ul{
+	list-style:none;
+	}
+	
+	
+#etc{
+	display:none;
+	margin: auto;
+	margin-top:20px;
+	margin-bottom:20px;
+}
+#etc>ul{
+/* background-color:beige; */
+	width:710px;
+	margin:0px auto;
+	padding:0px;
+	clear:both;
+	overflow:hidden;
+	list-style:none;
+	text-align:center;
+}
+#etc>ul>li{
+	font-size:130%;
+	border-bottom:1px solid #dddddd;
+/* 	border-bottom:1px solid gray; */
+	width:140px;
+	height:40px;
+	line-height:40px;
+	float:left;
+	display:block;
+/* 	margin-right:2px; */
+}
+#etc>ul>li:hover{
+	background-color:antiquewhite;
+  	border:1px solid #dddddd;
+	border-bottom:0px solid gray;
+	border-top-right-radius:10px;
+	border-top-left-radius:10px;
+}
+#etc>.tab_content{
+	display:block;
+	border:1px solid #dddddd;
+	margin:0px auto;
+	margin-top:20px;
+	margin-bottom:40px;
+	width:710px;
+}
+
+#etc>#div_map{
+	width:700px;
+	height:450px;
+	display:block;
+	margin:auto;
+	float:left;
+}
+#etc>#div_map div{
+	border:0px solid;
+}
+#etc>#div_map a{
+	border:0px solid;
+	padding:0px;
+	
+	margin:0px 0px 0px 0px;
+	font-size:100%;
+	
+	
+	
+}
+#etc>#div_map>#map{
+	width:600px;
+	height:400px;
+	margin:auto;
+}
+#map_info{
+	margin-top:20px;
+}
+
+#intro_table{
+
+	margin-bottom:50px;
+}
+#intro_table>div table{
+background-color:white;
+width:650px;
+/* border:1px solid #eeeeee; */
+border-collapse: collapse;
+}
+#intro_table>div th{
+color:#1b2a68;
+text-align : left;
+background-color:white;
+width:180px;
+border:0px solid;
+}
+#intro_table>div tr{
+	text-align:right;
+	border-bottom:1px dotted #aaaaaa;
+	background-color:white;
+}
+#intro_table>div td{
+	padding:10px;
+	text-align:right;
+	background-color:white;
+}
+
+#intro_table>div img{
+	vertical-align:middle;
+}
+
+#board_post{
+	display: none;
+	margin-top:20px;
+}
+
+
+#post_table{
+ 	border-collapse:collapse;
+	width:650px;
+	height:550px;
+}
+#post_table>tbody>tr:nth-child(2){
+	height:30px;
+	text-align:left;
+}
+#post_table th{
+	height:40px;
+}
+#post_table td{}
+#post_table>tbody>tr>td:nth-child(1){
+	width:60px;
+}
+#post_table>tbody>tr:nth-child(3){
+	text-align:left;
+	vertical-align: baseline;
+	border-bottom:2px solid gray;
+}
+.post_table_btns{
+	width:160px;
+	margin:auto;
+}
+.post_table_btns>button{
+	background-color:white;	
+}
+
+#boardForm{
+	display:none;
+}
+
+/*<div id="div_edit">
+    <form id="edit_post">  */
+    
+#div_edit{
+ 	display:none;
+ 	margin-top:20px;
+ }
+#edit_post{}
+#edit_post th{
+	border:1px solid gray;
+}
+#edit_post tr{}
+#edit_post input{
+	width:500px;
+}
+#edit_post textarea{
+	width:500px;
+	height:500px;
+}
+
+#edit_post{}
+#edit_post>table>tbody>tr>th{
+	vertical-align:top;
+}
+#edit_post input{}
+#edit_post #txtarea{
+	resize:none;
+}
+/* 
+
+<div id="div_edit" class="grid_12">
+    <form id="edit_post">
+        <table>
+            <tr>
+                <th>제목</th>
+                <td><input type="text" name="edit_title" id="edit_title"/></td>
+            </tr>
+ */
+
+</style>
+
+
+</head>
+
+<body>
+
+
+
+	<div id="header">
+		<h1>비트교육센터</h1>
+
+		<form>
+
+			<div>
+				<label for="id"></label>
+			</div>
+
+			<div>
+				<label for="pw"></label> 
+			</div>
+			<div>
+				<button type="submit"><img src="img/btn_login.png"/></button>
+				<button type="button"><img src="img/btn_join.png"/></button>
+			</div>
+
+		</form>
+
+	</div>
+
+	<div id="menu">
+
+		<ul>
+			<li><a href="#">Home</a></li>
+			<li><a href="#">Intro</a></li>
+			<li><a href="#">B B S</a>
+				<ol>
+					<li><a href="#">E M P</a></li>
+					<li><a href="#">DEPT</a></li>
+					<li><a href="#">BOARD</a></li>
+				</ol></li>
+			<li><a href="#">Etc</a></li>
+		</ul>
+
+	</div>
+
+
+
+	<div class ="container_16" id="content">
+		<div id="car" class="grid_12">
+
+			<div id="big">
+				<div>
+					<img src="img/samsek1.jpg" />
+				</div>
+				<div>
+					<img src="img/samsek2.jpg" />
+				</div>
+				<div>
+					<img src="img/samsek3.jpg" />
+				</div>
+				<div>
+					<img src="img/samsek4.jpg" />
+				</div>
+				<div>
+					<img src="img/samsek5.jpg" />
+				</div>
+				<div>
+					<img src="img/samsek6.jpg" />
+				</div>
+			</div>
+			<div id="thumb">
+				<div>
+					<img src="img/samsek1.jpg" />
+				</div>
+				<div>
+					<img src="img/samsek2.jpg" />
+				</div>
+				<div>
+					<img src="img/samsek3.jpg" />
+				</div>
+				<div>
+					<img src="img/samsek4.jpg" />
+				</div>
+				<div>
+					<img src="img/samsek5.jpg" />
+				</div>
+				<div>
+					<img src="img/samsek6.jpg" />
+				</div>
+			</div>
+		</div><!--  carousel-->
+
+
+
+
+	<div id="side_bar" class="grid_4">
+	
+	<div id="login">
+	<fieldset id="side_loginField">
+		<legend id="login_title">비트캠프로그인</legend>
+	<form id="side_login" method="post">
+		<ul>
+		<li>
+		<span>ID&nbsp;</span><input type="text" name="id" size="15" id="side_id"/>
+		</li>
+		
+		<li>
+		<span>PW&nbsp;</span><input type="password" name="pw" size="15" id="side_pw"/>
+		</li>
+		</ul>
+		<button type="submit"><img id="side_loginBtn" alt="" src="img/btn_login.png"/></button>
+		<button type="button"><img alt="" src="img/btn_join.png"/></button>
+<!-- 		<button><img alt="" src="img/btn_join.png"/></button> -->
+		</form>
+		</fieldset>
+	</div>
+	
+	
+	<div id="ad">
+	
+	<ul>
+	<li><img alt="" src="img/btn1.png"></li>
+	<li><img alt="" src="img/btn3.png"></li>
+	</ul>
+	
+	
+	
+	</div>
+	
+
+
+	<div id="as_cecter">
+	
+	
+	<span id="as_title"><b>비트캠프</b> 대표문의</span>
+	
+	<table class="as_table">
+	<tr>
+	<th>서초본원</th>
+	<td>02.3486.9600</td>
+	</tr>
+	<tr>
+	<th>강남센터</th>
+	<td>02.3453.5404</td>
+	</tr>
+	<tr>
+	<th>신촌센터</th>
+	<td>02.707.1480</td>
+	</tr>
+	<tr>
+	<th>종로센터</th>
+	<td>02.722.1481</td>
+	</tr>
+	</table>
+	
+	<table class="as_table">
+	<tr>
+	<td colspan="2">평일 AM 09:00 - PM 21:00</td>
+	</tr>
+	<tr>
+	<td colspan="2">토/일/공휴일 AM 10:00 - PM 18:00</td>
+	</tr>
+	
+	<tr>
+	<td></td>
+	<td></td>
+	</tr>
+	
+	</table>
+	
+	
+	</div>
+	
+	
+	
+	</div><!-- side_bar -->
+
+
+
+
+		<div id="intro" class="grid_12">
+		
+		
+<div id="intro_table" >
+
+	<div>
+
+		<span class="title_bar">&#124;&nbsp;</span>
+		<div class="title_txt">&nbsp;&nbsp;회사소개</div>
+
+	</div>
+	<div>
+		<table class="company_info">
+
+			<tr>
+			<th>회사명</th>
+			<td>&nbsp;</td>
+			<td>비트캠프</td>
+			</tr>
+
+			<tr>
+			<th>업종</th>
+			<td>&nbsp;</td>
+			<td>교육서비스/소프트웨어 개발 및 자문공급</td>
+			</tr>
+	
+		</table>
+	</div>		
+	
+		<div>
+			<table id="company" class="company">
+			
+				<tr>
+					<th>사업분야</th>
+					<td>
+					<img class="ico" alt="" align="left" src="img/introIco1.png">
+					IT 전문 위탁교육사업<br/>SI, SM사업
+					</td>
+					<td>
+					<img class="ico" alt="" align="left" src="img/introIco3.png">
+					한국산업인력공단<br/>해외취업사업
+					</td>		
+				</tr>
+				<tr>
+					<th>&nbsp;</th>
+					<td>
+					<img class="ico" alt="" align="left" src="img/introIco2.png">
+					인사 & 교육컨설팅
+					</td>
+					<td>
+					<img class="ico" alt="" align="left" src="img/introIco4.png">
+					정부위탁교육 운영
+					</td>		
+				</tr>
+				<tr>
+					<th>인사&교육컨설팅 기관</th>
+					<td></td>
+					<td></td>		
+				</tr>
+				<tr>
+					<th>정부위탁교육운영</th>
+					<td colspan="2">
+					<img alt="" src="img/intro_img.jpg">
+					</td>
+							
+				</tr>
+			</table>
+		
+		</div>
+</div><!-- intro table -->
+		
+		
+		
+		
+		<span class="title_bar">&#124;&nbsp;</span>
+		<div class="title_txt">&nbsp;&nbsp;대표 인사말</div>
+		
+		<ul>
+		<li>
+			<dl>
+				<dt><img src="img/angry.png" /></dt>
+				<dd>
+					<ul class="teacher_sub">
+						<li>
+						<b>삼색이</b>
+						회장<br/>
+						</li>
+						<li>&nbsp;</li>
+						<li>
+						최신 소프트웨어를 개발하고 이를 바탕으로<br/>
+						SI사업과 교육사업을 병행하고 있는 교육센터입니다.<br/>
+						</li>
+						<li>&nbsp;</li>
+						<li>
+						빠르게 발전하는 IT기술분야에 최적의 교육해법을 <br/>제안하여 준비된
+						인재를 양성하는 IT전문 교육센터입니다.<br/> IT전문가를 향한 꿈, IT분야 취업의 희망!<br/>
+						교육센터 전 임직원이 최선을 다해 지원해드리겠습니다.<br/>
+						</li>
+					</ul>
+				</dd>
+			</dl>
+		</li>
+		<li>&nbsp;</li>
+		<li>
+		시스템 통합 관련 프로젝트와 소프트웨어 개발·보급·자문, IT관련 소프트웨어 전문 인력 양성에 <br/>중점을 두고 있습니다.
+<br/><br/>
+스마트폰 개발 기술 및 자바, Web2.0 기술 등을 활용한 시스템 통합과 소프트웨어, 솔루션 개발을 맡아<br/>
+전방에서 진두지휘하고 그것을 바탕으로 비트캠프를 운영하고 있습니다.
+<br/><br/>
+특히, 개발자 커뮤니티 대표들과의 최신 서적 저자 등 유망 강사진을 통해 최적의 교육솔루션을 제공하고 있으며, 노동부와 중기청,
+한국산업인력공단, 한국산업기술진흥원, 정보통신산업진흥원 등으로부터 인정받아 국내 및 해외취업 과정을 정부지원 하에
+수행하고 있습니다. <br/><br/>한편, 현대해상 프로젝트, 하이닉스, 마포구청 등 대규모 SI개발 프로젝트에 우수인력을 파견하고 있고,<br/>
+이렇게 다양한 SI영역에서의 사업은 비트캠프 출신의 수료생들을 적극 활용하고 있습니다. 실무위주의 교육을 받은 수료생들은
+채용은 물론 미취업 시 실무 프로젝트 투입기회 제공 등 다각도의 지원을 하고 있습니다.<br/><br/>
+
+교육센터는 "회사 구성원 대부분인 IT서적 저자, 개발자, 전문교육 수료생 출신이기 때문에 전문성과<br/>
+결속력이 뛰어나다"고 생각합니다. 앞으로 우리 교육센터는 "실무중심 교육 및 신기술을 선도하는 교육센터"를 만들어가겠습니다.<br/><br/>
+		
+		
+		
+		
+		</li>
+		</ul>
+		
+		
+		
+		
+		</div><!-- intro -->
+
+
+
+<div id="etc" class="grid_12">
+<span class="title_bar">&#124;&nbsp;</span>
+		<div class="title_txt">&nbsp;&nbsp;회사연혁</div>
+		
+		<ul class="tab_list">
+		<li>2018-2020</li>
+		<li>2015-2017</li>
+		<li>2010-2014</li>
+		<li>2004-2009</li>
+		<li>1990-2003</li>
+		</ul>
+		<div class="tab_content">
+		<img class="etcImg" src="img/history0.jpg"/>
+		</div>
+		
+<span class="title_bar">&#124;&nbsp;</span>
+		<div class="title_txt">&nbsp;&nbsp;오시는 길</div>
+		
+		<div id="div_map">
+		<div id ="map"></div>
+		<div id="map_info">
+		
+		<span>&#124;&nbsp;</span>
+		<span>비트캠프 서울시 서초구 강남대로 459
+(주)비트컴퓨터 서초본원</span>
+		
+		</div>
+		</div>
+		
+
+</div><!--  etc-->
+
+
+<div id="board_post" class="grid_12">
+
+<table id="post_table">
+	<tbody>
+		<tr>
+		<th colspan="2"><span class="post_title"></span></th><!--글제목  -->
+		</tr>
+		<tr>
+		<td><span class="post_writer"></span></td><!--작성자 -->
+		<td><span class="post_wtime"></span></td><!--작성시간  -->
+		</tr>
+		<tr>
+		<td colspan="2" ><div class="post_content"></div></td><!--글내용  -->
+		</tr>
+	</tbody>
+</table>
+
+<div class="post_table_btns">
+	<button>Edit</button>
+	<button>Delete</button>
+	<button>Back</button>
+</div>
+
+
+</div>
+
+
+	</div><!--  content-->
+
+
+		<div id="empForm">
+		<h2>입력페이지</h2>
+			<form action="">
+				<div>
+					<label for="empno">empno</label>
+					<input type="text" id="empno" name="empno"/>
+				
+				</div>
+				<div>
+					<label for="ename">ename</label>
+					<input type="text" id="ename" name="ename"/>
+				
+				</div>
+				<div>
+					<label for="job">job</label>
+					<input type="text" id="job" name="job"/>
+				
+				</div>
+				<div>
+				<label for="select">dept</label>
+					<select id="deptno" name="deptno">
+						<option value="10">accounting</option>
+						<option value="20">research</option>
+						<option value="30">sales</option>
+						<option value="40">operations</option>
+					</select>
+				</div>
+				<div>
+					<label for="mgr">mgr</label>
+					<input type="text" id="mgr" name="mgr"/>
+				
+				</div>
+				<div>
+					<label for="hiredate">hiredate</label>
+					<input type="date" id="hiredate" value="1991-03-19" name="hiredate"/>
+				
+				</div>
+				<div>
+					<label for="sal">sal</label>
+					<input type="text" id="sal" name="sal"/>
+				
+				</div>
+				<div>
+					<label for="comm">comm</label>
+					<input type="text" id="comm" name="comm"/>
+				
+				</div>
+
+				<div>
+					<button type="submit">submit</button>
+					<button type="reset">reset</button>
+				
+				</div>
+			
+			</form>
+		
+		</div>
+		
+		<div id="boardForm">
+			<h2>입력페이지</h2>
+			<form>
+				<div>
+					<label for="title">제목</label>
+					<input type="text" id="title" name="title"/>
+				
+				</div>
+				<div>
+					<label for="writer">작성자</label>
+					<input type="text" id="writer" name="writer"/>
+				
+				</div>
+				<div>
+					<label for="post_content">내용</label>
+					<textarea rows="15" cols="33" name="post_content" id="post_content"></textarea>
+				</div>
+				<div>
+					<button type="submit">submit</button>
+					<button type="reset">reset</button>
+				
+				</div>
+			
+			</form>
+		
+		</div>
+		
+		<div id="deptForm">
+		<h2>입력페이지</h2>
+			<form action="">
+				<div>
+					<label for="deptno1">deptno</label>
+					<input type="text" id="deptno1" name="deptno1"/>
+				</div>
+				<div>
+					<label for="dname">dname</label>
+					<input type="text" id="dname" name="dname"/>
+				
+				</div>
+				<div>
+				<label for="select">loc</label>
+					<select id="loc" name="loc">
+						<option value="NEW YORK">NEW YORK</option>
+						<option value="DALLAS">DALLAS</option>
+						<option value="CHICAGO">CHICAGO</option>
+						<option value="BOSTON">BOSTON</option>
+					</select>
+				</div>
+
+				<div>
+					<button type="submit">submit</button>
+					<button type="reset">reset</button>
+				</div>
+			</form>
+		
+		</div>
+
+
+
+<div id="board_post">
+	<table id="post">
+	<tr>
+	<th colspan="2">글제목</th>
+	
+	</tr>
+	
+	<tr>
+	<td>작성자</td>
+	<td>글쓴시각</td>
+	
+	</tr>
+	
+	<tr>
+	<td colspan="2">내용</td>
+	
+	</tr>
+	
+	</table>
+
+
+</div>
+
+<div id="div_edit" class="grid_12">
+    <form id="edit_post">
+        <table>
+            <tr>
+                <th>제목</th>
+                <td><input type="text" name="edit_title" id="edit_title"/></td>
+            </tr>
+            <tr>
+                <th>작성자</th>
+                <td><input type="text" name="edit_writer" id="edit_writer" readonly="readonly"/></td>
+            </tr>
+            <tr>
+                <th>내용</th>
+                <td><textarea name="txtarea" id="txtarea"></textarea>
+                </td>
+            </tr>
+        </table>
+        <div class="post_table_btns">
+	<button type="submit">submit</button>
+	<button type="button">cancel</button>
+	</div>
+    </form>
+</div>
+
+
+	<div id="footer">
+
+		<div>
+			<img alt="" src="img/footer-logo.png">
+			<div>
+			<address>비트캠프 서울시 서초구 강남대로 459</address>
+			(주)비트컴퓨터 서초본원<br /> Copyright &copy; 비트캠프 All rights reserved.</div>
+		</div>
+
+	</div>
+
+
+</body>
+</html>

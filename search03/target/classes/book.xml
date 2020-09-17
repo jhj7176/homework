@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="book"
+		type="com.bit.search.model.entity.BookVo" />
+
+	<select id="selectBooks" resultClass="book">
+		SELECT * from BOOK
+	</select>
+
+	<select id="selectBook" resultClass="book" parameterClass="int">
+		SELECT * FROM book WHERE book_id=#book_id#
+	</select>
+
+	<insert id="insertBook" parameterClass="book">
+		<!-- 중복값 처리. -->
+		INSERT INTO BOOK
+		(book_id, title, writer, publisher, pages, category,
+		isbn, translator, title_original, publication_date, revision)
+		VALUES
+		(#book_id#,#title#, #writer#, #publisher#, #pages#, #category#,
+		#isbn#, #translator#, #title_original#, #publication_date#,
+		#revision#)
+		ON DUPLICATE KEY UPDATE
+		book_id=#book_id#,title=#title#,publisher=#publisher#,pages=#pages#,category=#category#,isbn=#isbn#,
+		translator=#translator#,title_original=#title_original#,publication_date=#publication_date#,revision=#revision#
+	</insert>
+
+</sqlMap>

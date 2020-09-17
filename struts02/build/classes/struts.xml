@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+<package name="default" extends="struts-default">
+
+	<action name="index">
+	<result>/ex01.jsp</result>
+	</action>
+	
+	<action name="list" class="com.bit.dept.action.DeptListAction">
+	<interceptor-ref name="params"></interceptor-ref>
+	<result>/list.jsp</result>
+	</action>
+
+	<action name="add" class="com.bit.dept.action.DeptAddAction">
+	<result>/add.jsp</result>
+	</action>
+
+	<action name="insert" class="com.bit.dept.action.DeptInsertAction">
+	<interceptor-ref name="params"></interceptor-ref>
+	<result name="input">/add.jsp</result>
+	<result name="success">/addresult.jsp</result>
+	</action>
+	
+	
+	<action name="detail" class="com.bit.dept.action.DeptOneAction">
+	<interceptor-ref name="params"></interceptor-ref>
+	<result name="success">/detail.jsp</result>
+	</action>
+
+	<action name="edit" class="com.bit.dept.action.DeptOneAction">
+	<interceptor-ref name="params"></interceptor-ref>
+	<result name="success">/edit.jsp</result>
+	</action>
+
+
+	<action name="update" class="com.bit.dept.action.DeptUpdateAction">
+	<interceptor-ref name="params"></interceptor-ref>
+	<result name="success">/editresult.jsp</result>
+	</action>
+	
+	<action name="delete" class="com.bit.dept.action.DeptDeleteAction">
+	<interceptor-ref name="params"></interceptor-ref>
+	<result name="success">/deleteresult.jsp</result>
+	</action>
+	
+	
+</package>
+
+</struts>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="urlMap">
+			<props>
+				<!-- bean id와 mapping정보 -->
+				<prop key="/index.bit">index</prop>
+				<prop key="/goSearch.bit">goSearch</prop>
+				<prop key="/search.bit">search</prop>
+				<prop key="/crawling.bit">crawling</prop>
+				<prop key="/put.bit">put</prop>
+				<prop key="/mybooks.bit">mybooks</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="index"
+		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="index" />
+	</bean>
+
+	<bean id="goSearch"
+		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="goSearch" />
+	</bean>
+
+	<bean id="search"
+		class="com.bit.framework.controller.SearchController">
+		<property name="chapterDao" ref="chapterDao" />
+	</bean>
+
+	<bean id="crawling"
+		class="com.bit.framework.controller.CrawlingController">
+	</bean>
+
+	<bean id="put"
+		class="com.bit.framework.controller.PutController">
+		<property name="chapterDao" ref="chapterDao" />
+		<property name="bookDao" ref="bookDao" />
+	</bean>
+	
+	
+	<bean id="mybooks"
+		class="com.bit.framework.controller.MyBooksController">
+		<property name="chapterDao" ref="chapterDao" />
+	</bean>
+
+
+
+
+
+
+	<!-- ViewName을 받아 사용할 view를 dispatcher.servlet에게 전달해준다. -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+</beans>

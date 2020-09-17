@@ -1,38 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="tomcat.home"/>
+		<item key="selection" value=""/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
-			<item value="tomcat.home"/>
-			<item value="classes.dir"/>
-			<item value="docs.home"/>
-			<item value="dist.home"/>
-			<item value="jar"/>
-			<item value="dist"/>
-			<item value="utf-8"/>
-			<item value="EUC-KR"/>
-			<item value="notice"/>
-			<item value="board"/>
-			<item value="#6262d7"/>
+			<item value=".getAsString()"/>
+			<item value="jsonObject.get"/>
+			<item value="&lt;/a&gt;"/>
+			<item value="&lt;a href=&quot;detail.action?deptno=&lt;%=bean.getDeptno()%&gt;&quot;&gt;"/>
+			<item value="list"/>
+			<item value="calAttDays"/>
+			<item value="5"/>
+			<item value="lmsheader"/>
+			<item value="notice-table"/>
+			<item value="btn"/>
+			<item value="search"/>
+			<item value="search-div"/>
+			<item value="paging"/>
+			<item value="notice.bit"/>
+			<item value="getFileName"/>
 		</list>
 		<list key="replacehistory">
-			<item value="EUC-KR"/>
-			<item value="utf-8"/>
-			<item value="board"/>
+			<item value=""/>
+			<item value="$(data).find"/>
+			<item value="list_"/>
+			<item value="post"/>
+			<item value="customercenter.bit"/>
+			<item value="getFilename"/>
+			<item value="ntnum"/>
+			<item value="#cus-menu-sub1"/>
+			<item value="#customer-menu"/>
+			<item value=".bit-menu-sub1"/>
+			<item value="notice-table"/>
 			<item value="notice"/>
-			<item value="#6e6ed7"/>
+			<item value="on"/>
+			<item value="mypagepw1"/>
+			<item value="beforemypagetable"/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="616"/>
-		<item key="DIALOG_Y_ORIGIN" value="66"/>
-		<item key="DIALOG_WIDTH" value="393"/>
-		<item key="DIALOG_HEIGHT" value="523"/>
-		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-18|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+		<item key="DIALOG_X_ORIGIN" value="103"/>
+		<item key="DIALOG_Y_ORIGIN" value="175"/>
+		<item key="DIALOG_WIDTH" value="340"/>
+		<item key="DIALOG_HEIGHT" value="454"/>
+		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="692"/>
+		<item key="DIALOG_Y_ORIGIN" value="387"/>
 	</section>
 </section>

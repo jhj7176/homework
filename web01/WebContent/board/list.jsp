@@ -81,7 +81,7 @@ a {
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql2);
 			if (rs.next())
-				cardinality = rs.getInt(1); //ÃÑ °Ô½Ã±Û ¼ö, Æ©ÇÃ ¼ö 
+			cardinality = rs.getInt(1); //ÃÑ °Ô½Ã±Û ¼ö, Æ©ÇÃ ¼ö 
 			System.out.println(cardinality);
 			stmt.close();
 

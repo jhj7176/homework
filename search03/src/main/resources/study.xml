@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="study"
+		type="com.bit.search.model.entity.StudyVo" />
+
+	<select id="selectStudyAll" resultClass="study">
+		select * from study
+	</select>
+
+	<select id="selectStudy" resultClass="study" parameterClass="int">
+		select * from study where book_book_id=#book_book_id#
+	</select>
+
+	<insert id="insertStudy" parameterClass="study">
+		insert into study (book_book_id, user_user_id) values (#book_book_id#,#user_user_id#)
+
+	</insert>
+
+</sqlMap>

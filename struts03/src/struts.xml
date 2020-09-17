@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- struts.i18n.reload=true : 소스 파일을 수정후에 리스타트 없이 적용 시켜줍니다 struts.configuration.xml.reload 
+	= true : 설정 XML을 새로고쳐질때마다 로딩 합니다. struts.devMode = false : 스트럿츠 개발 모드를 on 
+	합니다. 하지만 보안 취약점때메 보통 on을 금합니다. struts.custom.i18n.resources=globalMessages,globalConfig 
+	: resource properties파일을 지정합니다. struts.action.extension=action : 기본 확장자를 
+	변경합니다. action이 기본입니다. 보통 .do로 많이 변경합니다. struts.ognl.allowStaticMethodAccess=true 
+	: static 변수나 메소드 사용할 수 있게 해줍니다. struts.i18n.encoding=UTF-8 : 인코딩 설정을 바꿉니다. 
+	한글이 깨지면 이걸 수정 -->
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+
+<struts>
+	<package name="default" extends="struts-default">
+		<action name="index">
+			<result type="dispatcher" name="success">/index.jsp</result>
+		</action>
+		<action name="main">
+			<result type="redirect">index.bit</result>
+		</action>
+	</package>
+
+	<package name="lec01" extends="default">
+		<action name="input" class="com.bit.action.InputAction">
+			<result name="success">/input.jsp</result>
+		</action>
+		<action name="result" class="com.bit.action.Step01Action">
+		<interceptor-ref name="params"/>
+			<result name="success">/result.jsp</result>
+		</action>
+		
+		<action name="result2" class="com.bit.action.Step02Action">
+		<interceptor-ref name="params"/>
+			<result name="success">/result2.jsp</result>
+		</action>
+		
+		<action name="result3" class="com.bit.action.Step03Action">
+		
+		<interceptor-ref name="modelDriven"/>
+		<interceptor-ref name="params"/>
+			<result name="success">/result3.jsp</result>
+		</action>
+
+		<action name="result4" class="com.bit.action.Step04Action">
+		<interceptor-ref name="prepare"/>
+		<interceptor-ref name="modelDriven"/>
+		<interceptor-ref name="params"/>
+			<result name="success">/result4.jsp</result>
+		</action>
+
+
+	</package>
+
+</struts>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+
+
+<script src="jquery/jquery-1.12.4.js"></script>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=73c965258ca816cf5049ccb3b335741e?&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript">
+
+$(function(){
+	
+	
+
+	var container = document.getElementById('map');
+	var options = {
+		center : new kakao.maps.LatLng(33.450701, 126.570667),
+		level : 3
+	};
+
+	var map = new kakao.maps.Map(container, options);
+	
+	// 마커가 표시될 위치입니다 
+	var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667); 
+
+	// 마커를 생성합니다
+	var marker = new kakao.maps.Marker({
+	    position: markerPosition
+	});
+
+	// 마커가 지도 위에 표시되도록 설정합니다
+	marker.setMap(map);
+	
+	
+});
+</script>
+<style type="text/css">
+
+
+div{
+ width:500px;
+ height:400px;
+}
+
+
+</style>
+
+</head>
+<body>
+
+<h1>Map api Test</h1>
+
+<div id="map"></div>
+
+</body>
+</html>

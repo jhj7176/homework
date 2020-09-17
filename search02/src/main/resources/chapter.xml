@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="vo"
+		type="com.bit.framework.model.entity.ChapterVo" />
+
+	<select id="selectBooks" resultClass="vo">
+		select * from books
+	</select>
+
+	<insert id="insertBook" parameterClass="int">
+		insert into books
+		(book_id) values (#book_id#)
+	</insert>
+</sqlMap>

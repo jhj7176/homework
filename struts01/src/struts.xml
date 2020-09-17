@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+	<constant name="struts.devMode" value="true" />
+
+
+	<package name="default" extends="struts-default">
+		<!-- struts_default.xml을 상속받음. lib에 있음 -->
+		<action name="hello" class="com.bit.action.Ex01Action">
+			<result>/hello.jsp</result>
+		</action>
+
+		<action name="ex02" class="com.bit.action.Ex02Action">
+			<result name="error">/ex03.jsp</result>
+			<result name="success">/ex02.jsp</result>
+		</action>
+
+	</package>
+
+
+	<package name="pack2" namespace="/etc" extends="default"><!-- 위에 default 패키지를 
+			상속받음, 상속과 오버라이딩의 개념 -->
+		<!-- http://localhost:8083/struts01/etc/ex04.action <<nameSapce -->
+		<action name="ex04" class="com.bit.action.Ex04Action">
+			<result name="success">/ex04.jsp</result>
+		</action>
+	</package>
+		
+		<package name="lec03" namespace="/lec04" extends="pack2">
+			<action name="ex01" class="com.bit.action.Ex11Action">
+				<interceptor-ref name="params"></interceptor-ref>
+				<!--request parameter를 action에 저장함  -->
+				<result>/ex05.jsp</result>
+			</action>
+		</package>
+
+
+
+
+
+
+
+
+
+
+</struts>

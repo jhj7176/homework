@@ -1,2 +1,4 @@
-COMMENT=\#c0c0c0 | null | false | false | false | false
+COMMENT=\#c7c7e2 | null | false | false | false | false
+css_content_assist_default_page_sort_order=org.eclipse.wst.css.ui.proposalCategory.css\u0000org.eclipse.wst.css.ui.proposalCategory.cssTemplates\u0000
+css_content_assist_own_page_sort_order=org.eclipse.wst.css.ui.proposalCategory.cssTemplates\u0000org.eclipse.wst.css.ui.proposalCategory.css\u0000
 eclipse.preferences.version=1

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>web12</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+
+
+  
+  <servlet>
+  <servlet-name>EditPost</servlet-name>
+  <servlet-class>com.bit.board.EditPost</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>EditPost</servlet-name>
+  <url-pattern>/edit.posts</url-pattern>
+  </servlet-mapping>
+
+  
+  
+  <servlet>
+  <servlet-name>DeletePost</servlet-name>
+  <servlet-class>com.bit.board.DeletePost</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>DeletePost</servlet-name>
+  <url-pattern>/delete.posts</url-pattern>
+  </servlet-mapping>
+
+  
+  <servlet>
+  <servlet-name>AddPost</servlet-name>
+  <servlet-class>com.bit.board.AddPost</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>AddPost</servlet-name>
+  <url-pattern>/add.posts</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+  <servlet-name>BoardPosts</servlet-name>
+  <servlet-class>com.bit.board.BoardPosts</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>BoardPosts</servlet-name>
+  <url-pattern>/board.posts</url-pattern>
+  </servlet-mapping>
+ 
+  <servlet>
+  <servlet-name>BoardContent</servlet-name>
+  <servlet-class>com.bit.board.BoardContent</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>BoardContent</servlet-name>
+  <url-pattern>/board.content</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>BoardControler</servlet-name>
+  <servlet-class>com.bit.board.BoardControler</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>BoardControler</servlet-name>
+  <url-pattern>/board.bit</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>Ex04</servlet-name>
+  <servlet-class>com.bit.web12.Ex04</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>Ex04</servlet-name>
+  <url-pattern>/ex04.net</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
+  <servlet-name>Emp</servlet-name>
+  <servlet-class>com.bit.emp.Emp</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>Emp</servlet-name>
+  <url-pattern>/emp.bit</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>EmpUpdate</servlet-name>
+  <servlet-class>com.bit.emp.EmpUpdate</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>EmpUpdate</servlet-name>
+  <url-pattern>/empupdate.bit</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>EmpAdd</servlet-name>
+  <servlet-class>com.bit.emp.EmpAdd</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>EmpAdd</servlet-name>
+  <url-pattern>/empadd.bit</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  <servlet-name>EmpOne</servlet-name>
+  <servlet-class>com.bit.emp.EmpOne</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>EmpOne</servlet-name>
+  <url-pattern>/empone.bit</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>EmpXml</servlet-name>
+  <servlet-class>com.bit.emp.EmpXML</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>EmpXml</servlet-name>
+  <url-pattern>/empxml.bit</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+  <servlet-name>EmpDelete</servlet-name>
+  <servlet-class>com.bit.emp.EmpDelete</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>EmpDelete</servlet-name>
+  <url-pattern>/empdelete.bit</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet>
+  <servlet-name>Json04</servlet-name>
+  <servlet-class>com.bit.web12.Json04</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  <servlet-name>Json04</servlet-name>
+  <url-pattern>/dept.bit</url-pattern>
+  </servlet-mapping>
+  
+
+  
+</web-app>

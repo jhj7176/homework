@@ -1,0 +1,38 @@
+
+<!--  jquery보다 아래에 선언해야함 -->
+
+css <link rel="stylesheet" type="text/css" href="node_modules/***/***/***.css"/>
+js   <script type="text/javascript" src="node_modules/***/***/***.js"></script>
+
+부트스트랩 3버전(https://getbootstrap.com/docs/3.4/getting-started/)
+npm install bootstrap@3
+
+스위트Alert(https://sweetalert.js.org/guides/)
+npm install sweetalert --save
+
+
+차트js(https://www.chartjs.org/)
+npm install chart.js --save
+
+
+high차트(https://www.highcharts.com/docs/getting-started/install-from-npm)
+npm install highcharts --save
+
+
+Am차트(차트, 맵, 폰트) (https://www.amcharts.com/download/)
+npm install @amcharts/amcharts4
+npm install @amcharts/amcharts4-geodata
+npm install @amcharts/amcharts4-fonts
+
+이미지배열(https://masonry.desandro.com/#download)
+npm install masonry-layout
+
+스크롤&애니메이션(https://michalsnik.github.io/aos/)
+npm install aos --save
+
+full캘린더(https://fullcalendar.io/docs/view-api)
+npm install fullcalendar
+
+OWL캐러셀js
+zip파일 직접 다운로드 필
+(https://owlcarousel2.github.io/OwlCarousel2/docs/started-installation.html)

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap>
+	<typeAlias alias="vo"
+		type="com.bit.search.model.entity.ChapterVo" />
+
+	<select id="selectAll" resultClass="vo">
+		SELECT * FROM toc
+	</select>
+
+	<select id="selectBookChapters" resultClass="vo" parameterClass="int">
+		SELECT * FROM toc WHERE book_book_id=#book_book_id#
+	</select>
+
+	<insert id="insertOne" parameterClass="vo">
+		INSERT INTO TOC (book_book_id,toc) VALUES (#book_book_id#,#toc#)
+	</insert>
+	
+</sqlMap>
